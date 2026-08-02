@@ -92,32 +92,34 @@ a { color: inherit; }
   gap: 56px;
 }
 
-/* ---------- hero ---------- */
-/* The hero pins to the top and the rest of the page rides up over it, so the page
-   reads as sheets stacking rather than one column sliding past. The paper band is
-   the stage's own background, which is why it runs edge to edge for free. The
-   padding reproduces the column's 32px top and the 56px gap before the next
-   section, so the paper still ends exactly where that section begins. */
-.hero {
+/* ---------- stacked sheets ---------- */
+/* Each section is a full width opaque panel that pins, then gets covered by the
+   next one climbing over it. Panels paint in document order, so a later sheet
+   covers an earlier one without any z-index bookkeeping.
+
+   No sticky offset is set here on purpose. Sticky with no offset never sticks,
+   so without JavaScript this is an ordinary scrolling page. stack.js measures
+   each panel and sets the offset, because the value depends on whether the panel
+   is taller than the screen. See the note in that file. */
+.panel {
   position: sticky;
-  top: 0;
-  z-index: 0;
   display: flex;
   justify-content: center;
-  padding: 32px 0 56px;
-  background: url("assets/paper-texture.webp") center / cover no-repeat;
 }
-.hero-col { width: min(var(--col), calc(100% - 64px)); }
-.postcard { width: 100%; height: auto; }
+.panel .col { padding-block: 64px; }
 
-/* Opaque and above the hero: this is the sheet that covers it on the way up.
-   Its top padding is 0 because the gap already lives in the hero's band. */
-.col--rest {
-  position: relative;
-  z-index: 1;
-  background: var(--bg);
-  padding-top: 0;
-}
+.panel--hero { background: url("assets/paper-texture.webp") center / cover no-repeat; }
+.panel--hero .col { padding-block: 32px 64px; }
+.panel--work { background: url("assets/sky-panel.webp") center / cover no-repeat; }
+.panel--about { background: #e7e7e9; }
+.panel--footer { background: var(--blue); }
+
+/* Nothing comes over the footer, so it never pins. It still has to be positioned:
+   static content paints underneath positioned siblings, so a static footer would
+   slide behind the pinned About panel instead of over it. */
+.panel--footer { position: relative; }
+
+.postcard { width: 100%; height: auto; }
 
 /* ---------- section header: rule + diamond + serif label ---------- */
 .section { display: flex; flex-direction: column; gap: 24px; }
@@ -371,9 +373,9 @@ a { color: inherit; }
   .pill { padding: 8px 14px; }
   /* full bleed minus the 16px page padding, not the desktop 32px gutter */
   .col { width: 100%; padding: 32px 16px 56px; gap: 40px; }
-  .hero { padding: 32px 0 40px; } /* tracks the smaller mobile section gap */
-  .hero-col { width: 100%; padding: 0 16px; }
-  .col--rest { padding-top: 0; }
+  /* panels keep the 16px inline padding from .col and only tighten top and bottom */
+  .panel .col { padding-block: 40px; }
+  .panel--hero .col { padding-block: 32px 40px; }
   .head { height: auto; gap: 8px; }
   .head .label { font-size: 28px; line-height: 34px; }
   .head .dia { font-size: 18px; line-height: 22px; }
@@ -448,6 +450,6 @@ a { color: inherit; }
   * { transition: none !important; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
-  /* the hero scrolls away normally instead of pinning under the incoming section */
-  .hero { position: static; }
+  /* sheets scroll past each other normally instead of pinning and stacking */
+  .panel { position: static; }
 }
