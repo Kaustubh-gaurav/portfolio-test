@@ -93,24 +93,31 @@ a { color: inherit; }
 }
 
 /* ---------- hero ---------- */
-.hero { position: relative; width: 100%; }
-/* Paper band, hero only. It breaks out of the column to run edge to edge, and
-   its top cancels the column's 32px padding so it starts flush under the nav,
-   exactly as the band sits in the Figma frame. The bottom offset matches the
-   section gap, so the paper stops where the next section begins. */
-.hero::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: -32px;
-  bottom: -56px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
+/* The hero pins to the top and the rest of the page rides up over it, so the page
+   reads as sheets stacking rather than one column sliding past. The paper band is
+   the stage's own background, which is why it runs edge to edge for free. The
+   padding reproduces the column's 32px top and the 56px gap before the next
+   section, so the paper still ends exactly where that section begins. */
+.hero {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  padding: 32px 0 56px;
   background: url("assets/paper-texture.webp") center / cover no-repeat;
-  pointer-events: none;
 }
+.hero-col { width: min(var(--col), calc(100% - 64px)); }
 .postcard { width: 100%; height: auto; }
+
+/* Opaque and above the hero: this is the sheet that covers it on the way up.
+   Its top padding is 0 because the gap already lives in the hero's band. */
+.col--rest {
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+  padding-top: 0;
+}
 
 /* ---------- section header: rule + diamond + serif label ---------- */
 .section { display: flex; flex-direction: column; gap: 24px; }
@@ -364,7 +371,9 @@ a { color: inherit; }
   .pill { padding: 8px 14px; }
   /* full bleed minus the 16px page padding, not the desktop 32px gutter */
   .col { width: 100%; padding: 32px 16px 56px; gap: 40px; }
-  .hero::before { bottom: -40px; } /* tracks the smaller mobile section gap */
+  .hero { padding: 32px 0 40px; } /* tracks the smaller mobile section gap */
+  .hero-col { width: 100%; padding: 0 16px; }
+  .col--rest { padding-top: 0; }
   .head { height: auto; gap: 8px; }
   .head .label { font-size: 28px; line-height: 34px; }
   .head .dia { font-size: 18px; line-height: 22px; }
@@ -439,4 +448,6 @@ a { color: inherit; }
   * { transition: none !important; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
+  /* the hero scrolls away normally instead of pinning under the incoming section */
+  .hero { position: static; }
 }
