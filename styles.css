@@ -1,0 +1,392 @@
+/* Kaustubh Tiwari — portfolio
+   Column is a fixed 640 on desktop and laptop; mobile reflows at 640px viewport. */
+
+:root {
+  --blue: #002bba;
+  --bg: #fbfbfb;
+  --pill: #eef0f3;
+  --grey: #7e7e7e;
+  --border: #e7eaee;
+  --col: 640px;
+  --media-radius: 24px; /* matches the card image radius in the Figma file */
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth; /* Contact pill glides down to the footer */
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--blue);
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+
+/* ---------- nav ---------- */
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 54px;
+  height: 74px;
+  padding: 0 16px;
+  flex-wrap: wrap;
+}
+.pill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--pill);
+  font-size: 18px;
+  line-height: 21.6px;
+  text-decoration: none;
+  transition: background 120ms ease, color 120ms ease;
+}
+.pill:hover, .pill:focus-visible { background: var(--blue); color: #fff; }
+
+/* ---------- column ---------- */
+.col {
+  width: var(--col);
+  margin: 0 auto;
+  padding: 32px 0 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+/* ---------- hero ---------- */
+.hero { display: flex; flex-direction: column; gap: 16px; }
+.avatar-row { display: flex; align-items: flex-end; gap: 12px; }
+.avatar-wrap { position: relative; width: 85px; height: 85px; flex: none; }
+.avatar { width: 85px; height: 85px; border-radius: 10px; object-fit: cover; }
+.status-dot {
+  position: absolute; right: 0; bottom: 0;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--blue); border: 2px solid var(--bg);
+}
+.name { font-size: 16px; line-height: 24px; margin: 0; font-weight: 500; }
+.tagline { display: flex; flex-direction: column; gap: 19px; width: 608px; max-width: 100%; }
+.tagline p { margin: 0; font-size: 24px; line-height: 28.8px; }
+
+/* ---------- section header: rule + diamond + serif label ---------- */
+.section { display: flex; flex-direction: column; gap: 24px; }
+.head { display: flex; align-items: center; gap: 8px; height: 48px; }
+.head .rule { flex: 1; height: 2px; background: var(--blue); }
+.head .dia { font-size: 24px; line-height: 28.8px; }
+.head .label {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 48px;
+  margin: 0;
+}
+
+/* ---------- work cards ---------- */
+.work-list { display: flex; flex-direction: column; gap: 16px; }
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  text-decoration: none;
+  border-radius: 8px;
+}
+.card-media {
+  position: relative;
+  border-radius: var(--media-radius);
+  overflow: hidden;
+  background: var(--pill);
+  line-height: 0;
+}
+/* The radius goes on the image too, not just the wrapper: an inline img sits on
+   the text baseline, so the wrapper grows a few px taller than the image and its
+   rounded corners end up below the image's own square ones. */
+.card-media img {
+  display: block;
+  width: 100%; height: auto;
+  aspect-ratio: 608 / 468;
+  object-fit: cover;
+  border-radius: var(--media-radius);
+}
+.tag {
+  position: absolute; top: 16px; left: 16px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: rgb(0 43 186 / 0.22);
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+  backdrop-filter: blur(2px);
+}
+.caption { display: flex; align-items: center; gap: 6px; font-size: 20px; line-height: 24px; }
+.caption .dia { font-size: 14px; line-height: 20px; }
+
+/* ---------- work page ---------- */
+/* same card geometry as the home page, plus borders on the card and the image well */
+.col--work { gap: 88px; padding-top: 32px; }
+.page-title {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  font-size: 126px;
+  line-height: 1;
+  margin: 0;
+}
+.card--bordered { border: 1px solid var(--border); }
+.card-media--bordered { border: 1px solid var(--border); }
+
+/* ---------- case study ---------- */
+/* column widens from 640 to 1160 on case study pages */
+.col--case { width: 1160px; gap: 80px; padding: 100px 0; }
+.masthead { display: flex; flex-direction: column; gap: 38px; }
+.back { font-size: 18px; line-height: 22px; text-decoration: none; align-self: flex-start; }
+.back:hover { text-decoration: underline; }
+.case-title {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  font-size: 96px;
+  line-height: 96px;
+  margin: 0;
+}
+.meta { display: flex; gap: 0; }
+.meta-col { display: flex; flex-direction: column; gap: 11px; }
+.meta-col--overview { width: 528px; flex: none; }
+.meta-col--year { width: 75px; flex: none; margin-left: auto; }
+.meta-label { font-size: 16px; line-height: 19px; }
+.meta-value { margin: 0; font-size: 20px; line-height: 24px; }
+
+.plate { margin: 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.plate img { width: 100%; height: auto; }
+
+/* subheading column against the prose column */
+.case-section { display: flex; align-items: flex-start; gap: 16px; }
+.case-head {
+  flex: none; width: 320px;
+  margin: 0;
+  font-weight: 500; font-size: 18px; line-height: 22px;
+}
+.prose { flex: 1; display: flex; flex-direction: column; gap: 24px; }
+.prose p { margin: 0; font-size: 20px; line-height: 24px; color: var(--grey); }
+.prose strong { font-weight: 700; }
+.prose ul { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 12px; }
+.prose li { font-size: 20px; line-height: 24px; color: var(--grey); }
+/* a label heading sits tight to the list it introduces */
+.prose-label + ul { margin-top: -12px; }
+
+/* ---------- reveal on scroll ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 620ms cubic-bezier(.22,.61,.36,1), transform 620ms cubic-bezier(.22,.61,.36,1);
+  will-change: opacity, transform;
+}
+.reveal.is-in { opacity: 1; transform: none; }
+/* if JS never runs, nothing should stay invisible */
+.no-js .reveal { opacity: 1; transform: none; }
+
+/* ---------- experience ---------- */
+.exp-rows { display: flex; flex-direction: column; gap: 24px; }
+.exp-row { display: flex; align-items: flex-start; gap: 8px; }
+.exp-date {
+  flex: none; width: 168px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--grey);
+}
+.exp-detail { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.exp-role { display: flex; align-items: center; gap: 6px; font-size: 18px; line-height: 21.6px; }
+.exp-role .dia { font-size: 14px; line-height: 20px; }
+.exp-desc { margin: 0; font-weight: 400; font-size: 16px; line-height: 19.2px; color: var(--grey); }
+
+/* ---------- about ---------- */
+.about-body { display: flex; flex-direction: column; gap: 28px; }
+.lead { margin: 0; font-size: 18px; line-height: 21.6px; }
+.paras { display: flex; flex-direction: column; gap: 20px; }
+.paras p { margin: 0; font-size: 20px; line-height: 24px; }
+
+/* ---------- most replayed ---------- */
+.replayed { display: flex; flex-direction: column; gap: 28px; }
+.replayed-label { font-size: 15px; line-height: 18px; padding: 6px 0 6px 6px; color: var(--grey); }
+/* Spotify compact embed — 80px is the short player, matching the reference's 81px bar */
+.track {
+  display: block;
+  width: 100%;
+  height: 80px;
+  border: 0;
+  border-radius: 8px;
+  color-scheme: normal; /* stops the iframe inheriting a forced dark scheme */
+}
+
+/* polaroids overlap and tilt; stage is fixed so they can bleed past the column */
+.polaroids { position: relative; height: 440px; }
+.polaroid {
+  position: absolute;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.14);
+  padding: 13px;
+}
+.polaroid img { width: 100%; height: 100%; object-fit: cover; }
+.polaroid figcaption {
+  margin-top: 26px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: var(--grey);
+}
+.polaroid-1 { left: -13px; top: -9px; width: 357px; height: 429px; transform: rotate(-4deg); }
+.polaroid-1 img { height: 339px; }
+.polaroid-2 { left: 328px; top: 12px; width: 311px; height: 375px; transform: rotate(3deg); }
+.polaroid-2 img { height: 297px; }
+
+/* ---------- footer ---------- */
+.footer {
+  background: var(--blue);
+  color: #fff;
+  padding: 60px 16px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.contact { width: var(--col); max-width: 100%; display: flex; flex-direction: column; align-items: center; gap: 31px; }
+.contact h2 {
+  margin: 0;
+  align-self: stretch;
+  font-family: Geist, Inter, sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 35.2px;
+}
+.form { align-self: stretch; display: flex; flex-direction: column; gap: 16px; }
+.form input, .form textarea {
+  font: inherit;
+  font-weight: 400;
+  font-size: 14px;
+  padding: 13px 14px;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  border-radius: 6px;
+  width: 100%;
+  resize: none;
+}
+.form input { height: 44px; }
+.form textarea { height: 100px; }
+.form ::placeholder { color: rgb(255 255 255 / 0.6); }
+.form input:focus, .form textarea:focus { outline: 2px solid #fff; outline-offset: -1px; }
+.send {
+  align-self: flex-start;
+  width: 100px; height: 42px;
+  font: inherit; font-weight: 600; font-size: 14px;
+  color: var(--blue); background: #fff;
+  border: 0; border-radius: 6px;
+  cursor: pointer;
+}
+.send:hover { opacity: 0.9; }
+.or { display: flex; align-items: center; gap: 6px; font-size: 16px; line-height: 20px; }
+.or span { opacity: 0.7; }
+.socials { display: flex; align-items: center; gap: 15px; }
+.socials a {
+  height: 32px;
+  display: grid; place-items: center;
+  transition: opacity 120ms ease;
+}
+/* inline SVG so the glyphs sit on the blue with no background box */
+.socials svg { height: 32px; width: auto; fill: #fff; display: block; }
+.socials a:hover, .socials a:focus-visible { opacity: 0.7; }
+
+.wordmark { width: 100%; padding-top: 60px; text-align: center; }
+.wordmark .mark {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(48px, 16.6vw, 318px);
+  line-height: 1;
+  margin: 0;
+  white-space: nowrap;
+}
+.wordmark .copy { font-size: 16px; line-height: 19.2px; margin: 0; padding-bottom: 12px; }
+
+/* ---------- mobile ---------- */
+@media (max-width: 680px) {
+  :root { --col: 100%; }
+  .nav { gap: 8px; padding: 20px 16px; height: auto; }
+  .col { padding: 32px 16px 56px; gap: 40px; }
+  .tagline { width: 100%; gap: 14px; }
+  .tagline p { font-size: 16px; line-height: 19.2px; }
+  .head { height: auto; gap: 8px; }
+  .head .label { font-size: 28px; line-height: 34px; }
+  .head .dia { font-size: 18px; line-height: 22px; }
+  .section { gap: 20px; }
+  .card { padding: 16px; }
+  .tag { font-size: 16px; line-height: 20px; padding: 8px 12px; top: 12px; left: 12px; }
+  .caption { font-size: 18px; line-height: 22px; }
+
+  /* date stacks above the role rather than sitting in a fixed left column */
+  .exp-row { flex-direction: column; gap: 16px; }
+  .exp-date { width: auto; }
+  .exp-rows { gap: 20px; }
+
+  .col--work { gap: 44px; padding-top: 24px; }
+  .page-title { font-size: 70px; }
+
+  /* case study: subheading stacks above the prose, meta stacks */
+  .col--case { width: 100%; gap: 44px; padding: 40px 16px 56px; }
+  .masthead { gap: 24px; }
+  .case-title { font-size: 48px; line-height: 48px; }
+  .meta { flex-direction: column; gap: 24px; }
+  .meta-col--overview, .meta-col--year { width: 100%; margin-left: 0; }
+  .meta-value { font-size: 16px; line-height: 19.2px; }
+  .case-section { flex-direction: column; gap: 16px; }
+  .case-head { width: auto; }
+  .prose { gap: 16px; }
+  .prose p, .prose li { font-size: 16px; line-height: 19.2px; }
+  .prose ul { gap: 10px; }
+  .prose-label + ul { margin-top: -6px; }
+  .back { font-size: 16px; }
+
+  .lead { font-size: 12px; line-height: 15px; }
+  .paras { gap: 16px; }
+  .paras p { font-size: 16px; line-height: 19.2px; }
+  .about-body { gap: 24px; }
+
+  .replayed-label { font-size: 13px; line-height: 16px; }
+
+  .polaroids { height: 246px; }
+  .polaroid { padding: 7px; }
+  .polaroid figcaption { margin-top: 14px; font-size: 10px; line-height: 13px; }
+  .polaroid-1 { left: -7px; top: -5px; width: 200px; height: 240px; }
+  .polaroid-1 img { height: 190px; }
+  .polaroid-2 { left: 183px; top: 7px; width: 174px; height: 210px; }
+  .polaroid-2 img { height: 166px; }
+
+  .footer { padding: 60px 16px 0; }
+  .contact { gap: 24px; }
+  .contact h2 { font-size: 24px; line-height: 27px; }
+  .or { flex-direction: column; gap: 4px; font-size: 15px; }
+  .socials { gap: 12px; }
+  .socials a { width: 30px; height: 30px; }
+  .socials svg { width: 20px; height: 20px; }
+  .wordmark { padding-top: 40px; }
+  .wordmark .copy { font-size: 14px; line-height: 17px; }
+}
+
+/* between mobile and 1160+, the case study column needs to shrink rather than overflow */
+@media (min-width: 681px) and (max-width: 1223px) {
+  .col--case { width: 100%; padding-left: 32px; padding-right: 32px; }
+  .meta-col--year { margin-left: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; }
+}
