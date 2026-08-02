@@ -9,8 +9,7 @@
   --muted: #6b7280; /* nav item at rest */
   --ink: #0f0f0f;   /* nav item on hover */
   --border: #e7eaee;
-  --col: 640px;
-  --hero: 747px; /* the postcard runs wider than the column it sits in */
+  --col: 747px;
   --media-radius: 24px; /* matches the card image radius in the Figma file */
 }
 
@@ -91,8 +90,11 @@ a { color: inherit; }
 .pill[aria-current="page"] { color: var(--blue); }
 
 /* ---------- column ---------- */
+/* 747 on desktop, but it has to give way to a 32px gutter before the viewport
+   gets narrower than the column itself, or the page scrolls sideways between
+   the column width and the 680 mobile breakpoint. */
 .col {
-  width: var(--col);
+  width: min(var(--col), calc(100% - 64px));
   margin: 0 auto;
   padding: 32px 0 96px;
   display: flex;
@@ -101,15 +103,7 @@ a { color: inherit; }
 }
 
 /* ---------- hero ---------- */
-/* The postcard is 747 wide against a 640 column, so it breaks out and recentres
-   on the viewport. min() keeps it inside the screen on narrow windows, which is
-   what stops the extra width becoming a horizontal scrollbar between breakpoints. */
-.hero {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(var(--hero), calc(100vw - 32px));
-}
+.hero { width: 100%; }
 .postcard { width: 100%; height: auto; }
 
 /* ---------- section header: rule + diamond + serif label ---------- */
@@ -262,28 +256,31 @@ a { color: inherit; }
   color-scheme: normal; /* stops the iframe inheriting a forced dark scheme */
 }
 
-/* polaroids overlap and tilt; stage is fixed so they can bleed past the column */
-.polaroids { position: relative; height: 440px; }
+/* Polaroids overlap and tilt; the stage is absolutely placed so they can bleed
+   past the column. Every number here was tuned against a 640 column, so widening
+   to 747 means scaling the whole composition by 747/640 rather than nudging one
+   photo, which would open a gap on the right and break the overlap. */
+.polaroids { position: relative; height: 513px; }
 .polaroid {
   position: absolute;
   background: #fff;
   border-radius: 2px;
   box-shadow: 0 4px 14px rgb(0 0 0 / 0.14);
-  padding: 13px;
+  padding: 15px;
 }
 .polaroid img { width: 100%; height: 100%; object-fit: cover; }
 .polaroid figcaption {
-  margin-top: 26px;
+  margin-top: 30px;
   text-align: center;
   font-weight: 400;
-  font-size: 13px;
-  line-height: 16px;
+  font-size: 15px;
+  line-height: 19px;
   color: var(--grey);
 }
-.polaroid-1 { left: -13px; top: -9px; width: 357px; height: 429px; transform: rotate(-4deg); }
-.polaroid-1 img { height: 339px; }
-.polaroid-2 { left: 328px; top: 12px; width: 311px; height: 375px; transform: rotate(3deg); }
-.polaroid-2 img { height: 297px; }
+.polaroid-1 { left: -15px; top: -10px; width: 417px; height: 501px; transform: rotate(-4deg); }
+.polaroid-1 img { height: 396px; }
+.polaroid-2 { left: 383px; top: 14px; width: 363px; height: 438px; transform: rotate(3deg); }
+.polaroid-2 img { height: 347px; }
 
 /* ---------- footer ---------- */
 .footer {
@@ -359,7 +356,8 @@ a { color: inherit; }
   .nav { padding: 20px 16px; height: auto; }
   .pills { gap: 0 0; row-gap: 8px; }
   .pill { padding: 8px 14px; }
-  .col { padding: 32px 16px 56px; gap: 40px; }
+  /* full bleed minus the 16px page padding, not the desktop 32px gutter */
+  .col { width: 100%; padding: 32px 16px 56px; gap: 40px; }
   .head { height: auto; gap: 8px; }
   .head .label { font-size: 28px; line-height: 34px; }
   .head .dia { font-size: 18px; line-height: 22px; }
