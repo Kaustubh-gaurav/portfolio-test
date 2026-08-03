@@ -18,8 +18,12 @@
   var running = false;
   var last = 0;
 
-  // how much of the remaining distance is left after one second; smaller glides less
-  var REMAINING_PER_SECOND = 0.002;
+  // The one knob. It is the fraction of the remaining distance still left after a
+  // second, so smaller is snappier and larger glides for longer:
+  //   0.002  settles in about 0.75s, roughly a default inertia library
+  //   0.025  settles in about 1.25s
+  //   0.10   settles in about 2s, very floaty
+  var REMAINING_PER_SECOND = 0.025;
 
   function limit() {
     return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
@@ -41,13 +45,16 @@
     // framerate independent easing, so a 120Hz screen does not glide twice as fast
     current += (target - current) * (1 - Math.pow(REMAINING_PER_SECOND, dt / 1000));
 
-    if (Math.abs(target - current) < 0.5) {
+    if (Math.abs(target - current) < 0.1) {
       current = target;
-      jump(Math.round(current));
+      jump(current);
       running = false;
       return;
     }
-    jump(Math.round(current));
+    // deliberately not rounded: browsers keep fractional scroll offsets, and
+    // snapping to whole pixels is visible as stepping at the end of a glide,
+    // which is exactly where the motion is slowest and most scrutinised
+    jump(current);
     requestAnimationFrame(frame);
   }
 
