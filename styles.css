@@ -430,7 +430,11 @@ a { color: inherit; }
 .socials svg { height: 32px; width: auto; fill: #fff; display: block; }
 .socials a:hover, .socials a:focus-visible { opacity: 0.7; }
 
-.wordmark { width: 100%; padding-top: 60px; text-align: center; }
+/* The wordmark is set on line-height 1, so the font's descent space spills below
+   the box it occupies. Nothing is drawn down there, but it still counts as page
+   height, which left a strip of page background showing under the footer. Clip
+   removes it from scrollable overflow without creating a scroll container. */
+.wordmark { width: 100%; padding-top: 60px; text-align: center; overflow: clip; }
 .wordmark .mark {
   font-family: "Instrument Serif", Georgia, serif;
   font-weight: 400;
