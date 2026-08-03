@@ -11,7 +11,7 @@
 <link rel="icon" href="assets/avatar.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif&family=Geist:wght@400;500&family=Geist+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif&family=Geist:wght@400;500&family=Geist+Mono&family=Libre+Barcode+39+Extended&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -19,7 +19,6 @@
 <nav class="nav">
   <div class="pills">
     <a class="pill" href="index.html" aria-current="page">Home</a>
-    <a class="pill" href="work.html">Work</a>
     <a class="pill" href="#contact">Contact</a>
     <a class="pill" href="https://drive.google.com/file/d/1IlaySMHLkv5Y7w4LRYgcFy8eMSJbB-ok/view?usp=sharing" target="_blank" rel="noopener">Resume</a>
   </div>
@@ -49,29 +48,69 @@
       <span class="dia">&#9670;</span>
       <h2 class="label">Work</h2>
     </div>
+    <!-- Boarding pass cards. The artwork differs between layouts rather than
+         reflowing: a shaped stub beside the body on desktop, a full width still
+         above it on mobile, so <picture> fetches only the one in play. -->
     <div class="work-list">
 
-      <a class="card" href="case-tomatoo.html">
-        <div class="card-media">
-          <img src="assets/tomatoo.webp" alt="Tomatoo" width="1216" height="936">
+      <a class="ticket" href="case-tomatoo.html">
+        <div class="ticket-face">
+          <div class="ticket-inner">
+            <picture class="ticket-shot">
+              <source media="(min-width: 681px)" srcset="assets/work/stub-tomatoo.webp">
+              <img src="assets/work/shot-tomatoo.webp" alt="Tomatoo app screens" loading="lazy">
+            </picture>
+            <p class="ticket-route"><span>KGT</span><span class="ticket-rule"></span><span>TO</span></p>
+            <p class="ticket-title">Tomatoo</p>
+            <p class="ticket-kind">Product Design<span class="ticket-kind-year"> | 2026</span></p>
+            <p class="ticket-year">Year: 2026</p>
+            <img class="ticket-mascot ticket-mascot--tomatoo" src="assets/work/mascot-tomatoo.webp" alt="" loading="lazy">
+            <span class="ticket-tear"></span>
+            <span class="ticket-barcode">Tomatoo</span>
+            <span class="ticket-plane"></span>
+          </div>
         </div>
-        <div class="caption">Tomatoo <span class="dia">&#9670;</span> Product Design</div>
       </a>
 
-      <a class="card" href="case-jopana.html">
-        <div class="card-media">
-          <img src="assets/jopana.webp" alt="Jopana" width="1216" height="936">
+      <a class="ticket" href="case-jopana.html">
+        <div class="ticket-face">
+          <div class="ticket-inner">
+            <picture class="ticket-shot">
+              <source media="(min-width: 681px)" srcset="assets/work/stub-jopana.webp">
+              <img src="assets/work/shot-jopana.webp" alt="Jopana app screens" loading="lazy">
+            </picture>
+            <p class="ticket-route"><span>KGT</span><span class="ticket-rule"></span><span>JA</span></p>
+            <p class="ticket-title">Jopana</p>
+            <p class="ticket-kind">Product Design<span class="ticket-kind-year"> | 2026</span></p>
+            <p class="ticket-year">Year: 2026</p>
+            <img class="ticket-mascot ticket-mascot--jopana" src="assets/work/mascot-jopana.webp" alt="" loading="lazy">
+            <span class="ticket-tear"></span>
+            <span class="ticket-barcode">Jopanaa</span>
+            <span class="ticket-plane"></span>
+          </div>
         </div>
-        <div class="caption">Jopana <span class="dia">&#9670;</span> Product Design</div>
       </a>
 
-      <a class="card" href="#">
-        <div class="card-media">
-          <img src="assets/linktalk.webp" alt="LinkTalk" width="1216" height="936">
-          <span class="tag">Coming soon</span>
+      <!-- no case study to link to yet, so this one is deliberately not an anchor -->
+      <div class="ticket ticket--soon">
+        <div class="ticket-face">
+          <div class="ticket-inner">
+            <picture class="ticket-shot">
+              <source media="(min-width: 681px)" srcset="assets/work/stub-linktalk.webp">
+              <img src="assets/work/shot-linktalk.webp" alt="LinkTalk app screens" loading="lazy">
+            </picture>
+            <p class="ticket-route"><span>KGT</span><span class="ticket-rule"></span><span>LT</span></p>
+            <p class="ticket-title">LinkTalk</p>
+            <p class="ticket-kind">Product Design<span class="ticket-kind-year"> | 2026</span></p>
+            <p class="ticket-year">Year: 2026</p>
+            <img class="ticket-mascot ticket-mascot--linktalk" src="assets/work/mascot-linktalk.webp" alt="" loading="lazy">
+            <span class="ticket-tear"></span>
+            <span class="ticket-barcode">LinkTaLk</span>
+            <span class="ticket-plane"></span>
+            <span class="ticket-soon">Coming soon</span>
+          </div>
         </div>
-        <div class="caption">LinkTalk <span class="dia">&#9670;</span> Product Design</div>
-      </a>
+      </div>
 
     </div>
   </section>
@@ -81,41 +120,6 @@
 
 <section class="panel panel--about">
    <div class="col">
-
-  <section class="section">
-    <div class="head">
-      <h2 class="label">Experience</h2>
-      <span class="dia">&#9670;</span>
-      <span class="rule"></span>
-    </div>
-    <div class="exp-rows">
-
-      <div class="exp-row">
-        <div class="exp-date">2024 to 2025</div>
-        <div class="exp-detail">
-          <div class="exp-role">UIUX Designer <span class="dia">&#9670;</span> Freelance</div>
-          <p class="exp-desc">Worked on multiple projects including websites, dashboards and applications.</p>
-        </div>
-      </div>
-
-      <div class="exp-row">
-        <div class="exp-date">2025 to 2026</div>
-        <div class="exp-detail">
-          <div class="exp-role">Product Designer <span class="dia">&#9670;</span> Superkit</div>
-          <p class="exp-desc">Owned end to end design of all the components of Superkit.</p>
-        </div>
-      </div>
-
-      <div class="exp-row">
-        <div class="exp-date">2026 to Present</div>
-        <div class="exp-detail">
-          <div class="exp-role">Product Designer <span class="dia">&#9670;</span> Mextropic AI</div>
-          <p class="exp-desc">Shipped 3 MVP designs while working with a team and 2 MVP designs while working alone.</p>
-        </div>
-      </div>
-
-    </div>
-  </section>
 
   <section class="section" id="about">
     <div class="head">
