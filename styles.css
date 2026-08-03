@@ -162,11 +162,18 @@ a { color: inherit; }
   background: var(--ticket-bg);
   -webkit-mask: url("assets/work/ticket-desktop.svg") no-repeat top left / 100% 100%;
   mask: url("assets/work/ticket-desktop.svg") no-repeat top left / 100% 100%;
-  transition: background 160ms ease;
   --ticket-bg: #f7f7f7;
   --ticket-ink: #0f0f0f;
   --ticket-title: var(--blue);
   --ticket-kind: var(--muted);
+}
+/* A custom property does not interpolate, so changing --ticket-ink alone would
+   snap. Each property that reads one carries its own transition instead, and
+   they all run on the same curve so the stub and its contents turn together. */
+.ticket-face,
+.ticket-route, .ticket-title, .ticket-kind, .ticket-year,
+.ticket-barcode, .ticket-rule, .ticket-plane {
+  transition: background-color 260ms ease, color 260ms ease;
 }
 .ticket:hover .ticket-face,
 .ticket:focus-visible .ticket-face {
