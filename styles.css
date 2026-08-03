@@ -343,6 +343,9 @@ a { color: inherit; }
 .polaroids { position: relative; height: 440px; }
 .polaroid {
   position: absolute;
+  /* a figure carries a default margin of 1em 40px, which would silently shift
+     every coordinate below by 40 across and 16 down */
+  margin: 0;
   background: #fff;
   border-radius: 2px;
   box-shadow: 0 4px 14px rgb(0 0 0 / 0.14);
