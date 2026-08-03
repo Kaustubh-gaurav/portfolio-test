@@ -20,10 +20,12 @@
 
   // The one knob. It is the fraction of the remaining distance still left after a
   // second, so smaller is snappier and larger glides for longer:
-  //   0.002  settles in about 0.75s, roughly a default inertia library
-  //   0.025  settles in about 1.25s
-  //   0.10   settles in about 2s, very floaty
-  var REMAINING_PER_SECOND = 0.025;
+  //   0.00001 settles in about 0.4s, barely a glide at all
+  //   0.0002  settles in about 0.55s
+  //   0.002   settles in about 0.75s, roughly a default inertia library
+  //   0.025   settles in about 1.25s
+  //   0.10    settles in about 2s, very floaty
+  var REMAINING_PER_SECOND = 0.0002;
 
   function limit() {
     return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
