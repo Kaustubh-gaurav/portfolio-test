@@ -48,12 +48,17 @@ a { color: inherit; }
 
 /* ---------- nav ---------- */
 /* One grey tray holding all four items, rather than four separate pills. */
+/* Sticks to the top with the tray sitting 16 below the edge. The z-index is not
+   decoration: the stacked sheets are positioned, so without it they would climb
+   over the nav rather than pass beneath it. */
 .nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 74px;
-  padding: 0 16px;
+  padding: 16px;
   background: rgb(251 251 251 / 0.88);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -122,7 +127,11 @@ a { color: inherit; }
 /* Nothing comes over the footer, so it never pins. It still has to be positioned:
    static content paints underneath positioned siblings, so a static footer would
    slide behind the pinned About panel instead of over it. */
-.panel--footer { position: relative; }
+.panel--footer {
+  position: relative;
+  /* the Contact link jumps here, and the nav now sits over the top of the page */
+  scroll-margin-top: 86px;
+}
 
 /* Settles in on load like a card being put down on the desk. The fill is
    backwards rather than both on purpose: both would leave the animation's end
@@ -529,7 +538,7 @@ a { color: inherit; }
 @media (max-width: 680px) {
   :root { --col: 100%; }
   /* the tray tightens up rather than shrinking: items butt together, padding drops to 14 */
-  .nav { padding: 20px 16px; height: auto; }
+  .nav { padding: 16px; }
   .pills { gap: 0 0; row-gap: 8px; }
   .pill { padding: 8px 14px; }
   /* full bleed minus the 16px page padding, not the desktop 32px gutter */
@@ -653,7 +662,7 @@ a { color: inherit; }
 /* below 390 the tray no longer fits on one line, so buy the space back from padding
    rather than letting Resume wrap onto a second row */
 @media (max-width: 400px) {
-  .nav { padding: 20px 12px; }
+  .nav { padding: 16px 12px; }
   .pill { padding: 8px 12px; }
 }
 
