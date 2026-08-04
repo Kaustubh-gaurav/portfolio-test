@@ -34,9 +34,14 @@
       <!-- The postcard is one composed graphic, so the headline lives in the artwork.
            This h1 keeps that line in the document for search and screen readers. -->
       <h1 class="sr-only">Kaustubh Tiwari, your friendly neighbourhood product designer</h1>
-      <img class="postcard" src="assets/postcard-hero.webp"
-           alt="A postcard signed from Kaustubh, carrying a photo of him in the mountains, a sunflower, an air mail stamp and the handwritten line: Your Friendly Neighbourhood Product Designer"
-           width="1600" height="1250" fetchpriority="high">
+      <!-- The wrapper is what hover is measured against. Putting it on the image
+           itself would mean the image rotating out from under the pointer and
+           flickering; this box does not move. -->
+      <div class="postcard-wrap">
+        <img class="postcard" src="assets/postcard-hero.webp"
+             alt="A postcard signed from Kaustubh, carrying a photo of him in the mountains, a sunflower, an air mail stamp and the handwritten line: Your Friendly Neighbourhood Product Designer"
+             width="1600" height="1250" fetchpriority="high">
+      </div>
     </div>
 </header>
 

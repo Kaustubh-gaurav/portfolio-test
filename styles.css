@@ -139,8 +139,11 @@ a { color: inherit; }
   to   { opacity: 1; transform: none; }
 }
 /* Hover straightens the postcard. It is drawn at about 3 degrees off level in
-   the artwork, and the design's hover state sits it upright at the same size. */
-.panel--hero:hover .postcard { transform: rotate(3.08deg) scale(1.01); }
+   the artwork, and the design's hover state sits it upright at the same size.
+   Triggered on the wrapper, so it responds to the postcard rather than to
+   anywhere in the hero band, and does not chase the pointer as it rotates. */
+.postcard-wrap { width: 100%; }
+.postcard-wrap:hover .postcard { transform: rotate(3.08deg) scale(1.01); }
 
 /* ---------- section header: rule + diamond + serif label ---------- */
 .section { display: flex; flex-direction: column; gap: 24px; }
@@ -278,12 +281,20 @@ a { color: inherit; }
    so it reads as a wipe against the bars in both the rest and hover palettes
    rather than needing a highlight that only works on one of them. The span is
    already rotated, so the sweep runs along the barcode of its own accord. */
+/* The sweep is a background position, not a translated box. Moving the element
+   would carry it outside its own bounds and paint over the destination code
+   above, which sits only 11 away from the end of the code. A background is
+   clipped to the box it belongs to, so it cannot reach anything else, and the
+   box spans exactly the length of the barcode. */
 .ticket-barcode::after {
   content: "";
   position: absolute;
-  inset: -0.15em -0.35em;
-  background: linear-gradient(90deg,
-    transparent 38%, var(--ticket-bg) 47%, var(--ticket-bg) 53%, transparent 62%);
+  inset: -0.15em 0;
+  background-image: linear-gradient(90deg,
+    transparent 44%, var(--ticket-bg) 48%, var(--ticket-bg) 52%, transparent 56%);
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  background-position: 0% 0%;
   opacity: 0;
   pointer-events: none;
 }
@@ -292,10 +303,10 @@ a { color: inherit; }
   animation: ticket-scan 1100ms cubic-bezier(.4,0,.2,1);
 }
 @keyframes ticket-scan {
-  0%   { opacity: 0; transform: translateX(-115%); }
+  0%   { opacity: 0; background-position-x: 0%; }
   12%  { opacity: 0.9; }
   88%  { opacity: 0.9; }
-  100% { opacity: 0; transform: translateX(115%); }
+  100% { opacity: 0; background-position-x: 100%; }
 }
 /* 16 in from the right border, the same inset the destination code and the
    barcode already sit on. Its centre is therefore 32/2 further in again. */
