@@ -124,7 +124,23 @@ a { color: inherit; }
    slide behind the pinned About panel instead of over it. */
 .panel--footer { position: relative; }
 
-.postcard { width: 100%; height: auto; }
+/* Settles in on load like a card being put down on the desk. The fill is
+   backwards rather than both on purpose: both would leave the animation's end
+   state latched forever and the hover transform below would never apply. */
+.postcard {
+  width: 100%;
+  height: auto;
+  transform-origin: 50% 55%;
+  animation: postcard-settle 950ms cubic-bezier(.22,.61,.36,1) backwards;
+  transition: transform 480ms cubic-bezier(.22,.61,.36,1);
+}
+@keyframes postcard-settle {
+  from { opacity: 0; transform: translateY(16px) scale(0.97) rotate(-1.4deg); }
+  to   { opacity: 1; transform: none; }
+}
+/* Hover straightens the postcard. It is drawn at about 3 degrees off level in
+   the artwork, and the design's hover state sits it upright at the same size. */
+.panel--hero:hover .postcard { transform: rotate(3.08deg) scale(1.01); }
 
 /* ---------- section header: rule + diamond + serif label ---------- */
 .section { display: flex; flex-direction: column; gap: 24px; }
@@ -171,12 +187,22 @@ a { color: inherit; }
 }
 /* A custom property does not interpolate, so changing --ticket-ink alone would
    snap. Each property that reads one carries its own transition instead, and
-   they all run on the same curve so the stub and its contents turn together. */
-.ticket-face,
+   they all run on the same curve so the stub and its contents turn together.
+
+   transition is a shorthand, so the face has to declare its lift here too
+   rather than in a separate rule that one of these would overwrite. */
 .ticket-route, .ticket-title, .ticket-kind, .ticket-year,
-.ticket-barcode, .ticket-rule, .ticket-plane {
+.ticket-barcode, .ticket-rule {
   transition: background-color 260ms ease, color 260ms ease;
 }
+/* The lift sits on the face, not on .ticket, because .ticket carries the scroll
+   reveal and that also animates transform. The shadow still follows: the filter
+   on the parent renders this element after it moves. */
+.ticket-face { transition: background-color 260ms ease, transform 260ms ease; }
+.ticket:hover .ticket-face,
+.ticket:focus-visible .ticket-face { transform: translateY(-6px); }
+.ticket { transition: filter 260ms ease; }
+.ticket:hover, .ticket:focus-visible { filter: drop-shadow(0 12px 20px rgb(0 0 0 / 0.28)); }
 .ticket:hover .ticket-face,
 .ticket:focus-visible .ticket-face {
   --ticket-bg: var(--blue);
@@ -248,8 +274,33 @@ a { color: inherit; }
   white-space: nowrap;
   color: var(--ticket-ink);
 }
+/* A reader passing over the code. The bar is the card's own background colour,
+   so it reads as a wipe against the bars in both the rest and hover palettes
+   rather than needing a highlight that only works on one of them. The span is
+   already rotated, so the sweep runs along the barcode of its own accord. */
+.ticket-barcode::after {
+  content: "";
+  position: absolute;
+  inset: -0.15em -0.35em;
+  background: linear-gradient(90deg,
+    transparent 38%, var(--ticket-bg) 47%, var(--ticket-bg) 53%, transparent 62%);
+  opacity: 0;
+  pointer-events: none;
+}
+.ticket:hover .ticket-barcode::after,
+.ticket:focus-visible .ticket-barcode::after {
+  animation: ticket-scan 1100ms cubic-bezier(.4,0,.2,1);
+}
+@keyframes ticket-scan {
+  0%   { opacity: 0; transform: translateX(-115%); }
+  12%  { opacity: 0.9; }
+  88%  { opacity: 0.9; }
+  100% { opacity: 0; transform: translateX(115%); }
+}
+/* 16 in from the right border, the same inset the destination code and the
+   barcode already sit on. Its centre is therefore 32/2 further in again. */
 .ticket-plane {
-  left: calc(731.25 * var(--u));
+  left: calc(715 * var(--u));
   top: calc(299.6 * var(--u));
   width: calc(32 * var(--u));
   height: calc(32 * var(--u));
@@ -257,6 +308,12 @@ a { color: inherit; }
   background: var(--ticket-ink);
   -webkit-mask: url("assets/work/airplane.svg") no-repeat center / contain;
   mask: url("assets/work/airplane.svg") no-repeat center / contain;
+  transition: transform 560ms cubic-bezier(.22,.61,.36,1), background-color 260ms ease;
+}
+/* it takes off along the 45 degrees it already points */
+.ticket:hover .ticket-plane,
+.ticket:focus-visible .ticket-plane {
+  transform: translate(calc(-50% + 13 * var(--u)), calc(-50% - 13 * var(--u))) rotate(45deg);
 }
 .ticket-tear { display: none; } /* desktop tears vertically, and the notches say so */
 .ticket-soon {
@@ -315,15 +372,27 @@ a { color: inherit; }
 .prose-label + ul { margin-top: -12px; }
 
 /* ---------- reveal on scroll ---------- */
-.reveal {
+/* Scoped to .js, which an inline script in the head sets before anything paints.
+   These elements start invisible, so if the stylesheet hid them unconditionally
+   then a browser with scripting off would show a blank page rather than an
+   unanimated one. Hiding only when the script that reveals them is able to run
+   is the difference between degrading the animation and losing the content. */
+.js .reveal {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 620ms cubic-bezier(.22,.61,.36,1), transform 620ms cubic-bezier(.22,.61,.36,1);
   will-change: opacity, transform;
 }
-.reveal.is-in { opacity: 1; transform: none; }
-/* if JS never runs, nothing should stay invisible */
-.no-js .reveal { opacity: 1; transform: none; }
+.js .reveal.is-in { opacity: 1; transform: none; }
+
+/* A ticket both reveals and deepens its shadow on hover. Transition is a
+   shorthand, so whichever rule came last would otherwise wipe out the other
+   set; they have to be declared together, on a selector that beats both. */
+.js .ticket.reveal {
+  transition: opacity 620ms cubic-bezier(.22,.61,.36,1),
+              transform 620ms cubic-bezier(.22,.61,.36,1),
+              filter 260ms ease;
+}
 
 /* ---------- about ---------- */
 .about-body { display: flex; flex-direction: column; gap: 40px; }
@@ -586,7 +655,10 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; }
+  .js .reveal { opacity: 1; transform: none; }
   /* sheets scroll past each other normally instead of pinning and stacking */
   .panel { position: static; }
+  /* the settle, the barcode scan and anything else keyframed */
+  *, *::before, *::after { animation: none !important; }
+  .postcard { opacity: 1; }
 }
