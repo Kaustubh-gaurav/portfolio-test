@@ -51,6 +51,10 @@ a { color: inherit; }
 /* Sticks to the top with the tray sitting 16 below the edge. The z-index is not
    decoration: the stacked sheets are positioned, so without it they would climb
    over the nav rather than pass beneath it. */
+/* The wrapper is only a positioner, so it stays transparent: the design has the
+   grey tray floating on its own with no bar behind it. Because it still spans the
+   full width, it would otherwise swallow clicks and hovers on whatever scrolls
+   underneath, hence pointer-events off here and back on for the tray itself. */
 .nav {
   position: sticky;
   top: 0;
@@ -59,9 +63,7 @@ a { color: inherit; }
   justify-content: center;
   align-items: center;
   padding: 16px;
-  background: rgb(251 251 251 / 0.88);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
 }
 .pills {
   display: flex;
@@ -71,6 +73,7 @@ a { color: inherit; }
   gap: 16px;
   border-radius: 8px;
   background: var(--pill);
+  pointer-events: auto;
 }
 .pill {
   padding: 8px 16px;
