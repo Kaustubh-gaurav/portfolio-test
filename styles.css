@@ -11,6 +11,9 @@
   --ink: #0f0f0f;   /* nav item on hover */
   --border: #e7eaee;
   --col: 747px;
+  /* 16 padding + a 37.6 tall tray + 16 padding. The nav is out of flow, so
+     anything that used to sit below it adds this back by hand. */
+  --nav-h: 70px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -52,12 +55,19 @@ a { color: inherit; }
    decoration: the stacked sheets are positioned, so without it they would climb
    over the nav rather than pass beneath it. */
 /* The wrapper is only a positioner, so it stays transparent: the design has the
-   grey tray floating on its own with no bar behind it. Because it still spans the
+   tray floating on its own with no bar behind it. Because it still spans the
    full width, it would otherwise swallow clicks and hovers on whatever scrolls
-   underneath, hence pointer-events off here and back on for the tray itself. */
+   underneath, hence pointer-events off here and back on for the tray itself.
+
+   Fixed rather than sticky so it takes no room in the flow at all. That is what
+   lets the hero paper run to the very top of the page with the tray sitting on
+   it, as the design has it. Everything that used to begin below the nav now
+   adds --nav-h back itself. */
 .nav {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 20;
   display: flex;
   justify-content: center;
@@ -72,7 +82,13 @@ a { color: inherit; }
   justify-content: center;
   gap: 16px;
   border-radius: 8px;
-  background: var(--pill);
+  /* Translucent, not solid: in the design the paper creases read faintly through
+     the tray and the blur is doing most of the work of separating it from the
+     background. Kept opaque enough to stay legible once the sky panel and the
+     work cards scroll underneath, which the hero frame never has to handle. */
+  background: rgb(238 240 243 / 0.62);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   pointer-events: auto;
 }
 .pill {
@@ -118,7 +134,13 @@ a { color: inherit; }
    air under it before the next sheet arrives over the top */
 .panel .col { padding-block: 64px 128px; }
 
-.panel--hero { background: url("assets/paper-texture.webp") center / cover no-repeat; }
+/* The paper starts at the very top of the page and the nav floats on it, so the
+   clearance for the nav is padding on this panel rather than space above it.
+   A background paints across padding, which is what keeps the texture full bleed. */
+.panel--hero {
+  background: url("assets/paper-texture.webp") center / cover no-repeat;
+  padding-top: var(--nav-h);
+}
 .panel--hero .col { padding-block: 32px 96px; }
 /* the two sections are spaced differently in the design, so they are set per panel */
 .panel--work .section { gap: 80px; }
@@ -352,7 +374,8 @@ a { color: inherit; }
 
 /* ---------- case study ---------- */
 /* column widens from 640 to 1160 on case study pages */
-.col--case { width: 1160px; gap: 80px; padding: 100px 0; }
+/* the case pages have no hero to run under the nav, so they take the height back */
+.col--case { width: 1160px; gap: 80px; padding: 100px 0; margin-top: var(--nav-h); }
 .masthead { display: flex; flex-direction: column; gap: 38px; }
 .back { font-weight: 400; font-size: 18px; line-height: 22px; text-decoration: none; align-self: flex-start; }
 .back:hover { text-decoration: underline; }
@@ -557,8 +580,10 @@ a { color: inherit; }
   .panel--work .section { gap: 64px; }
   .panel--about .section { gap: 32px; }
 
-  /* the postcard is centred on the first screen rather than sitting under the nav */
-  .panel--hero { min-height: calc(100svh - 78px); align-items: center; }
+  /* the postcard is centred on the first screen rather than sitting under the nav.
+     The panel is now the full screen and carries the nav clearance as padding, so
+     the centring happens in what is left below the tray. */
+  .panel--hero { min-height: 100svh; align-items: center; }
   .panel--hero .col { padding-block: 40px; }
 
   /* ---------- mobile tickets ---------- */
