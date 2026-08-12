@@ -95,7 +95,10 @@ a { color: inherit; }
   padding: 8px 16px;
   border-radius: 8px;
   color: var(--muted);
-  font-size: 18px;
+  /* body is 500, the nav sits back at regular */
+  font-weight: 400;
+  font-size: 12px;
+  /* stays 21.6 at 12px, as in the design: it is what keeps the pill 38 tall */
   line-height: 21.6px;
   text-decoration: none;
   transition: color 120ms ease;
