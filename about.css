@@ -270,76 +270,34 @@
 }
 
 /* ---------- mobile ---------- */
-/* The mobile frame on Page 5 is still the previous flat About, so there is no
-   drawn design for any of this at 358. Rather than shrink a composed piece
-   until the writing is unreadable and the track embed clips, which it does
-   below about 300 wide, the stage unstacks into ordinary blocks in the same
-   order. The artwork that survives the narrow column stays; the cassette does
-   not, because its whole point is the embed sitting on it. */
+/* Frame 31 is drawn now, and it is the same composition at 358 rather than a
+   different layout. Checked rather than assumed: at 358/747 the notebook lands
+   on 358x586 against the frame's 358x586, the collage on 345x279 against
+   335x269, the heading on 108 wide against 109, and the cassette on 358x225
+   exactly. So nothing is repositioned here and the stage simply scales, which
+   is what --u was for.
+
+   The four blocks do sit further apart at this width. Those gaps are the only
+   difference, so they are the only thing restated, converted back into stage
+   units by dividing the frame's own offsets by 358/747:
+
+       cassette   634 -> 1323   (+57)
+       polaroids  907 -> 1893   (+93)
+       strip     1201 -> 2506  (+189)
+       height    1314 -> 2742  (+189)
+
+   The label, handwritten line and track bar are placed against the stage rather
+   than against the cassette, so each one carries the cassette's +57 as well. */
 @media (max-width: 680px) {
-  .about-inner { height: auto; display: flex; flex-direction: column; gap: 32px; }
-  .ab { position: static; width: 100%; height: auto; }
+  .about-inner { height: calc(2742 * var(--u)); }
 
-  /* The notebook and the cassette are both containers for something else: the
-     writing sits on one and the embed on the other. Once the stage unstacks,
-     the contents move out from under them and both are left as empty props, so
-     they go rather than being shrunk into decoration.
-     Scoped to .about-stage on purpose: these are images, and a bare .ab-book
-     loses to `.about-stage img { display: block }` on specificity. */
-  .about-stage .ab-rule,
-  .about-stage .ab-plane,
-  .about-stage .ab-label,
-  .about-stage .ab-tape,
-  .about-stage .ab-book { display: none; }
+  .ab-tape  { top: calc(1323 * var(--u)); }
+  .ab-label { top: calc(1388 * var(--u)); }
+  .ab-line  { top: calc(1391 * var(--u)); }
+  .ab-track { top: calc(1473 * var(--u)); }
 
-  .ab-head { width: 180px; }
-  .ab-copy { font-size: 18px; line-height: 1.55; }
-  .ab-copy p + p { margin-top: 18px; }
-  .ab-line { font-size: 26px; line-height: 1.4; }
+  .ab-pol--1 { top: calc(1905 * var(--u)); }
+  .ab-pol--2 { top: calc(1912 * var(--u)); }
 
-  /* the bar keeps its shape here, it just stops being placed */
-  .about-stage .ab-track {
-    position: relative;
-    height: 76px;
-    gap: 12px;
-    padding: 0 12px;
-    border-radius: 10px;
-  }
-  .ab-track-art { width: 48px; height: 48px; border-radius: 4px; }
-  .ab-track-name { font-size: 14px; line-height: 17px; }
-  .ab-track-artist { font-size: 12px; line-height: 15px; }
-  .ab-track-play { width: 30px; height: 30px; }
-  .ab-track-ico { width: 12px; height: 12px; }
-  .ab-track-embed { width: 240px; height: 80px; bottom: -4px; }
-
-  .ab-book, .ab-collage, .ab-strip { object-fit: contain; }
-
-  .ab-line { white-space: normal; }
-
-  /* The pair sits side by side rather than overlapping, keeping the tilt.
-     Every placed value has to be unset explicitly and at matching specificity,
-     or the desktop rules that position these by centre keep winning and the
-     cards collapse. */
-  .about-stage .ab-pols { display: flex; gap: 12px; align-items: flex-start; }
-  .about-stage .ab-pol {
-    position: relative;
-    left: auto; top: auto;
-    width: auto; height: auto;
-    flex: 1;
-    padding: 8px 8px 24px;
-  }
-  .about-stage .ab-pol img {
-    position: static;
-    left: auto; top: auto;
-    width: 100%; height: auto;
-  }
-  .about-stage .ab-pol figcaption {
-    position: static;
-    left: auto; top: auto; width: auto;
-    margin-top: 8px;
-    font-size: 12px;
-    line-height: 15px;
-  }
-  .about-stage .ab-pol--1 { transform: rotate(-3deg); }
-  .about-stage .ab-pol--2 { transform: rotate(2deg); }
+  .ab-strip { top: calc(2506 * var(--u)); }
 }
