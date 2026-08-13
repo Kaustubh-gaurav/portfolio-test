@@ -78,6 +78,8 @@
   width: calc(32 * var(--u));
   height: calc(32 * var(--u));
   fill: var(--blue);
+  /* drawn nose up, carries a -90 in the file, so it flies right along the rule */
+  transform: rotate(90deg);
 }
 
 .ab-copy {

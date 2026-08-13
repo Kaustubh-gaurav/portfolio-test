@@ -189,6 +189,37 @@ a { color: inherit; }
 /* ---------- section header: rule + diamond + serif label ---------- */
 .section { display: flex; flex-direction: column; gap: 24px; }
 .head { display: flex; align-items: center; gap: 8px; height: 48px; }
+
+/* The desktop header is the handwritten wordmark, then the rule, then a plane.
+   Mobile still uses the rule, diamond and serif label, so both sets ship and the
+   breakpoint chooses. The wordmark is an SVG rather than a webfont because
+   Amsterdam Handwriting is a commercial face; the h2 carries the real text. */
+.head-art, .head-plane { display: none; }
+@media (min-width: 681px) {
+  /* The glyphs are 75 tall against a 48 header and overflow it in the Figma too.
+     .head has a fixed height, so an over-tall flex item centres and spills
+     without pushing the section down. */
+  .head-art { display: block; flex: none; width: 110px; height: auto; }
+  .head-plane {
+    display: block;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    fill: var(--blue);
+    /* the group is drawn nose up and rotated -90 in the file, so it flies right */
+    transform: rotate(90deg);
+  }
+  .head .dia { display: none; }
+  /* kept for structure and screen readers, since the visible one is artwork */
+  .head .label {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
 .head .rule { flex: 1; height: 2px; background: var(--blue); }
 .head .dia { font-size: 24px; line-height: 28.8px; }
 .head .label {
