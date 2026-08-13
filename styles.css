@@ -233,31 +233,30 @@ a { color: inherit; }
    Mobile still uses the rule, diamond and serif label, so both sets ship and the
    breakpoint chooses. The wordmark is an SVG rather than a webfont because
    Amsterdam Handwriting is a commercial face; the h2 carries the real text. */
-.head-art, .head-plane { display: none; }
-@media (min-width: 681px) {
-  /* The glyphs are 75 tall against a 48 header and overflow it in the Figma too.
-     .head has a fixed height, so an over-tall flex item centres and spills
-     without pushing the section down. */
-  .head-art { display: block; flex: none; width: 110px; height: auto; }
-  .head-plane {
-    display: block;
-    flex: none;
-    width: 32px;
-    height: 32px;
-    fill: var(--blue);
-    /* the group is drawn nose up and rotated -90 in the file, so it flies right */
-    transform: rotate(90deg);
-  }
-  .head .dia { display: none; }
-  /* kept for structure and screen readers, since the visible one is artwork */
-  .head .label {
-    position: absolute;
-    width: 1px; height: 1px;
-    padding: 0; margin: -1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
+/* Both breakpoints now, not desktop only: the mobile header was redrawn to the
+   same pattern, wordmark then rule then plane, at 20px instead of 40.
+   The glyphs are 75 tall against a 48 header and overflow it in the Figma too.
+   .head has a fixed height, so an over-tall flex item centres and spills without
+   pushing the section down. */
+.head-art { display: block; flex: none; width: 110px; height: auto; }
+.head-plane {
+  display: block;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  fill: var(--blue);
+  /* the group is drawn nose up and rotated -90 in the file, so it flies right */
+  transform: rotate(90deg);
+}
+.head .dia { display: none; }
+/* kept for structure and screen readers, since the visible one is artwork */
+.head .label {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 .head .rule { flex: 1; height: 2px; background: var(--blue); }
 .head .dia { font-size: 24px; line-height: 28.8px; }
@@ -654,9 +653,12 @@ a { color: inherit; }
      64 over 128 rhythm here as on desktop */
   .panel .col { padding-block: 64px 128px; }
   .panel--hero .col { padding-block: 32px 40px; }
-  .head { height: auto; gap: 8px; }
-  .head .label { font-size: 28px; line-height: 34px; }
-  .head .dia { font-size: 18px; line-height: 22px; }
+  /* the header keeps its 48 here, the pieces just come down: wordmark 55 wide
+     against the desktop 110, plane 24 against 32, and a hairline rule */
+  .head { height: 48px; gap: 8px; }
+  .head-art { width: 57px; }
+  .head-plane { width: 24px; height: 24px; }
+  .head .rule { height: 1px; }
   .section { gap: 20px; }
   .panel--work .section { gap: 64px; }
   .panel--about .section { gap: 32px; }

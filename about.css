@@ -291,6 +291,14 @@
 @media (max-width: 680px) {
   .about-inner { height: calc(2742 * var(--u)); }
 
+  /* The copy was rewritten at this width: 14px against the desktop 24, which is
+     29 in stage units, and the three paragraphs now run together as one block
+     rather than sitting apart. Inline is how three <p> become one flowing run
+     without keeping a second copy of the words in the markup for mobile. */
+  .ab-copy { font-size: calc(29 * var(--u)); }
+  .ab-copy p { display: inline; }
+  .ab-copy p + p { margin-top: 0; }
+
   .ab-tape  { top: calc(1323 * var(--u)); }
   .ab-label { top: calc(1388 * var(--u)); }
   .ab-line  { top: calc(1391 * var(--u)); }
