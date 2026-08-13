@@ -161,19 +161,29 @@
           <p>Polished on the surface, a little feral about the details.</p>
         </div>
 
-        <img class="ab ab-collage" src="assets/about/collage.webp" alt=""
+        <img class="ab ab-collage" src="assets/about/stickers.webp" alt=""
              width="1442" height="1164" loading="lazy">
 
         <img class="ab ab-tape" src="assets/about/cassette.webp" alt=""
              width="1494" height="940" loading="lazy">
         <span class="ab ab-label"></span>
         <p class="ab ab-line">Pause if you must, but don&rsquo;t stop</p>
-        <!-- To change the track: open it in Spotify, Share > Copy link, and swap the ID.
-             theme=0 is what keeps the bar dark instead of tinted from the album art. -->
-        <iframe class="ab ab-track" title="Most replayed this month"
-                src="https://open.spotify.com/embed/track/1OOtq8tRnDM8kG2gqUPjAj?utm_source=generator&amp;theme=0"
-                loading="lazy"
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+        <!-- To change the track: swap the link, the art, the name and the artist.
+             Built rather than embedded because Spotify's compact embed is fixed at
+             80 tall and cannot fill the 121 box this is drawn as. Opens the track. -->
+        <a class="ab ab-track" href="https://open.spotify.com/track/1OOtq8tRnDM8kG2gqUPjAj"
+           target="_blank" rel="noopener">
+          <img class="ab-track-art" src="assets/about/track-art.webp" alt=""
+               width="104" height="104" loading="lazy">
+          <span class="ab-track-meta">
+            <span class="ab-track-name">Beat It</span>
+            <span class="ab-track-artist">Michael Jackson</span>
+          </span>
+          <span class="ab-track-play">
+            <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 1.2 10.2 6 2.5 10.8Z"/></svg>
+          </span>
+          <span class="sr-only">Most replayed this month: Beat It by Michael Jackson. Opens in Spotify.</span>
+        </a>
 
         <div class="ab-pols">
           <figure class="ab ab-pol ab-pol--1">

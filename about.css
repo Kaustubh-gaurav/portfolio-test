@@ -131,16 +131,59 @@
      are enough to tip it onto a second line and out of the white label. */
   white-space: nowrap;
 }
-/* theme=0 is what makes this a dark bar rather than one tinted from the album
-   art. It cannot be set to an arbitrary colour, and the surround outside its
-   rounded card is transparent, which is what lets it sit on the tape. */
+/* Built rather than embedded. Spotify's compact embed is locked at 80 tall no
+   matter what height the iframe is given, and the design's bar is 121, so the
+   real embed can never fill this box. It also insists on a Preview chip and its
+   own icons. This is the bar as drawn; the whole thing is a link to the track. */
 .ab-track {
   left: calc(103 * var(--u));
   top: calc(1416 * var(--u));
   width: calc(532 * var(--u));
   height: calc(121 * var(--u));
-  border: 0;
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--u));
+  padding: 0 calc(16 * var(--u));
+  border-radius: calc(12 * var(--u));
+  background: #3d3b38;
+  text-decoration: none;
+  transition: background-color 200ms ease;
 }
+.ab-track:hover, .ab-track:focus-visible { background: #4a4844; }
+
+.ab-track-art {
+  width: calc(52 * var(--u));
+  height: calc(52 * var(--u));
+  border-radius: calc(4 * var(--u));
+  flex: none;
+}
+.ab-track-meta { display: flex; flex-direction: column; gap: calc(4 * var(--u)); min-width: 0; }
+.ab-track-name {
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 500;
+  font-size: calc(14 * var(--u));
+  line-height: calc(17 * var(--u));
+  color: #fff;
+}
+.ab-track-artist {
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 400;
+  font-size: calc(12 * var(--u));
+  line-height: calc(15 * var(--u));
+  color: #bfbfbd;
+}
+/* pushed to the right edge, as in the frame */
+.ab-track-play {
+  margin-left: auto;
+  flex: none;
+  width: calc(28 * var(--u));
+  height: calc(28 * var(--u));
+  border-radius: 50%;
+  background: #fff;
+  display: grid;
+  place-items: center;
+}
+.ab-track-play svg { width: calc(12 * var(--u)); height: calc(12 * var(--u)); fill: #3d3b38; }
 
 /* ---------- polaroids ---------- */
 /* Positioned by their centres, because a rotated element's box in Figma is the
