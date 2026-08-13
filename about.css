@@ -155,33 +155,38 @@
 /* the embed is positioned against this */
 .ab-track { position: absolute; }
 
+/* Everything inside the bar comes off the mobile frame rather than the desktop
+   mock. The two are drawn at the same bar size once scaled, 256x58 against
+   532x121, but mobile fills it far better: art 67 against 52, play 58 against
+   28, name 29 against 14, artist 25 against 12. Since the desktop mock left all
+   that air, both widths now use the mobile proportions. */
 .ab-track-art {
-  width: calc(52 * var(--u));
-  height: calc(52 * var(--u));
-  border-radius: calc(4 * var(--u));
+  width: calc(67 * var(--u));
+  height: calc(67 * var(--u));
+  border-radius: calc(8 * var(--u));
   flex: none;
 }
-.ab-track-meta { display: flex; flex-direction: column; gap: calc(4 * var(--u)); min-width: 0; }
+.ab-track-meta { display: flex; flex-direction: column; gap: calc(8 * var(--u)); min-width: 0; }
 .ab-track-name {
   font-family: Inter, system-ui, sans-serif;
   font-weight: 500;
-  font-size: calc(14 * var(--u));
-  line-height: calc(17 * var(--u));
+  font-size: calc(29 * var(--u));
+  line-height: calc(35 * var(--u));
   color: #fff;
 }
 .ab-track-artist {
   font-family: Inter, system-ui, sans-serif;
   font-weight: 400;
-  font-size: calc(12 * var(--u));
-  line-height: calc(15 * var(--u));
+  font-size: calc(25 * var(--u));
+  line-height: calc(31 * var(--u));
   color: #bfbfbd;
 }
-/* pushed to the right edge, as in the frame */
+/* pushed to the right edge, as in the frame, and up from 28 to the mobile 58 */
 .ab-track-play {
   margin-left: auto;
   flex: none;
-  width: calc(28 * var(--u));
-  height: calc(28 * var(--u));
+  width: calc(58 * var(--u));
+  height: calc(58 * var(--u));
   border-radius: 50%;
   background: #fff;
   display: grid;
@@ -192,8 +197,8 @@
 .ab-track-play:hover, .ab-track-play:focus-visible { transform: scale(1.08); }
 .ab-track-ico {
   grid-area: 1 / 1;
-  width: calc(12 * var(--u));
-  height: calc(12 * var(--u));
+  width: calc(24 * var(--u));
+  height: calc(24 * var(--u));
   fill: #3d3b38;
 }
 /* both icons stack in the same cell and one is shown at a time, so the button
@@ -231,6 +236,10 @@
   font-size: calc(13 * var(--u));
   line-height: calc(16 * var(--u));
   color: #7e7e7e;
+  /* centred under the photo rather than ranged left, at both widths: the caption
+     boxes are set to the photo's width below, so this centres against the photo
+     and not against the whole card, which is wider on one side than the other */
+  text-align: center;
 }
 
 .ab-pol--1 {
