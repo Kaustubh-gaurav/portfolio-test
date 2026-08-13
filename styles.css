@@ -165,26 +165,51 @@ a { color: inherit; }
   scroll-margin-top: 86px;
 }
 
-/* Settles in on load like a card being put down on the desk. The fill is
-   backwards rather than both on purpose: both would leave the animation's end
-   state latched forever and the hover transform below would never apply. */
+/* The hero is two cards now, not one flat picture: the envelope lands first and
+   the postcard slides over it, the way someone would put it down.
+   Both artworks are level, so every angle here is CSS rather than baked in,
+   which is also what lets hover straighten the postcard against the envelope.
+
+   The fill is backwards rather than both on purpose: both would latch the end
+   state forever and the hover transform would never apply. */
+.postcard-wrap { position: relative; width: 100%; }
+
+.hero-envelope {
+  position: absolute;
+  left: 0;
+  top: 3.4%;
+  width: 100%;
+  height: auto;
+  /* tilted the other way from the postcard, so its corners read at the top left
+     and bottom right rather than hiding directly behind */
+  transform: rotate(3.4deg);
+  animation: envelope-in 620ms cubic-bezier(.22,.61,.36,1) backwards;
+}
+
 .postcard {
+  position: relative;
   width: 100%;
   height: auto;
   transform-origin: 50% 55%;
-  animation: postcard-settle 950ms cubic-bezier(.22,.61,.36,1) backwards;
+  transform: rotate(-3.08deg);
+  /* waits for the envelope to arrive before sliding over it */
+  animation: postcard-slide 880ms cubic-bezier(.22,.61,.36,1) 300ms backwards;
   transition: transform 480ms cubic-bezier(.22,.61,.36,1);
 }
-@keyframes postcard-settle {
-  from { opacity: 0; transform: translateY(16px) scale(0.97) rotate(-1.4deg); }
-  to   { opacity: 1; transform: none; }
+
+/* Hover sits the postcard square. Triggered on the wrapper so it responds to the
+   card rather than to anywhere in the hero band, and does not chase the pointer
+   as it rotates. */
+.postcard-wrap:hover .postcard { transform: rotate(0deg) scale(1.01); }
+
+@keyframes envelope-in {
+  from { opacity: 0; transform: rotate(3.4deg) translateY(16px); }
+  to   { opacity: 1; transform: rotate(3.4deg); }
 }
-/* Hover straightens the postcard. It is drawn at about 3 degrees off level in
-   the artwork, and the design's hover state sits it upright at the same size.
-   Triggered on the wrapper, so it responds to the postcard rather than to
-   anywhere in the hero band, and does not chase the pointer as it rotates. */
-.postcard-wrap { width: 100%; }
-.postcard-wrap:hover .postcard { transform: rotate(3.08deg) scale(1.01); }
+@keyframes postcard-slide {
+  from { opacity: 0; transform: rotate(-9deg) translate(-17%, 13%); }
+  to   { opacity: 1; transform: rotate(-3.08deg) translate(0, 0); }
+}
 
 /* ---------- section header: rule + diamond + serif label ---------- */
 .section { display: flex; flex-direction: column; gap: 24px; }

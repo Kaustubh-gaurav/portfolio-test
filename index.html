@@ -47,10 +47,15 @@
       <!-- The wrapper is what hover is measured against. Putting it on the image
            itself would mean the image rotating out from under the pointer and
            flickering; this box does not move. -->
+      <!-- Two layers rather than one composite, so the postcard can be slid over
+           the envelope. The envelope is decorative and the postcard carries the
+           description, because between them they are one picture. -->
       <div class="postcard-wrap">
-        <img class="postcard" src="assets/postcard-hero.webp"
+        <img class="hero-envelope" src="assets/hero-envelope.webp" alt=""
+             width="1600" height="1094" fetchpriority="high">
+        <img class="postcard" src="assets/hero-postcard.webp"
              alt="A postcard signed from Kaustubh, carrying a photo of him in the mountains, a sunflower, an air mail stamp and the handwritten line: Your Friendly Neighbourhood Product Designer"
-             width="1600" height="1250" fetchpriority="high">
+             width="1600" height="1092" fetchpriority="high">
       </div>
     </div>
 </header>
