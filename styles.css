@@ -202,8 +202,8 @@ a { color: inherit; }
   height: auto;
   transform-origin: 50% 55%;
   transform: rotate(-3.08deg);
-  /* waits for the envelope to arrive before sliding over it */
-  animation: postcard-slide 880ms cubic-bezier(.22,.61,.36,1) 300ms backwards;
+  /* waits for the envelope to land before rising over it */
+  animation: postcard-slide 820ms cubic-bezier(.22,.61,.36,1) 260ms backwards;
   transition: transform 480ms cubic-bezier(.22,.61,.36,1);
 }
 
@@ -212,13 +212,17 @@ a { color: inherit; }
    as it rotates. */
 .postcard-wrap:hover .postcard { transform: rotate(0deg) scale(1.01); }
 
+/* Both come up from below, the envelope first and the postcard after it, so the
+   postcard is seen arriving over an envelope that is already down.
+   translateY is written before rotate on purpose: after it, the card would
+   travel along its own tilted axis and drift sideways as it rises. */
 @keyframes envelope-in {
-  from { opacity: 0; transform: rotate(3.4deg) translateY(16px); }
-  to   { opacity: 1; transform: rotate(3.4deg); }
+  from { opacity: 0; transform: translateY(58%) rotate(3.4deg); }
+  to   { opacity: 1; transform: translateY(0) rotate(3.4deg); }
 }
 @keyframes postcard-slide {
-  from { opacity: 0; transform: rotate(-9deg) translate(-17%, 13%); }
-  to   { opacity: 1; transform: rotate(-3.08deg) translate(0, 0); }
+  from { opacity: 0; transform: translateY(64%) rotate(-3.08deg); }
+  to   { opacity: 1; transform: translateY(0) rotate(-3.08deg); }
 }
 
 /* ---------- section header: rule + diamond + serif label ---------- */

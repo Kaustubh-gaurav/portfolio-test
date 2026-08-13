@@ -12,13 +12,11 @@
    Desktop only. The mobile frame in the file has not been redesigned, so below
    681 this unstacks into ordinary blocks: see the bottom of the file. */
 
-/* Frame 28 is 64 top and bottom. The panel used to carry 520 underneath instead,
-   which was never spare space, it was the room the aeroplane needed. With the
-   artwork gone that would just be a long empty run of dots, so it goes back to
-   the 64 the column is actually drawn with. */
-@media (min-width: 681px) {
-  .panel--about .col { padding-block: 64px 64px; }
-}
+/* Nothing here. The panel used to carry 520 underneath, which was the room the
+   aeroplane needed, and briefly 64 after the artwork came out. It now takes the
+   64 over 128 that .panel .col already gives every sheet, so the comic strip
+   ends 128 above the footer arriving over it, in step with the rest of the page.
+   The override is gone rather than restated, so there is one rhythm to change. */
 
 .about-stage {
   container-type: inline-size;
