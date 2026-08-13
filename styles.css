@@ -161,9 +161,12 @@ a { color: inherit; }
   background-color: #fffeea;
   background-image: url("assets/about/bg-plane.webp"), url("assets/about/bg-stamps.webp");
   background-repeat: no-repeat, no-repeat;
-  /* the plane sits at the foot and runs off the left edge; the stamps cover */
-  background-position: left -5% bottom 0, center top;
-  background-size: 82% auto, cover;
+  /* Both cover, both centred, which is what the fills do in the file. The plane
+     is not placed by hand: its source image is mostly empty with the aeroplane
+     already sitting in the bottom left, so covering the panel puts it exactly
+     where it belongs. Sizing it by hand is what made it enormous. */
+  background-position: center, center;
+  background-size: cover, cover;
 }
 .panel--footer { background: var(--blue); }
 
