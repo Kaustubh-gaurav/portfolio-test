@@ -149,24 +149,20 @@ a { color: inherit; }
 .panel--work .section { gap: 80px; }
 .panel--about .section { gap: 56px; }
 .panel--work { background: url("assets/sky-panel.webp") center / cover no-repeat; }
-/* Cream, and now carrying artwork: passport stamps behind everything and a large
-   aeroplane at the foot of the panel.
-   Cream still matters on its own, because the notebook, cassette and sticker
-   photographs all have a #fffeea surround baked in and would read as pale
-   rectangles on anything else.
+/* Cream with a dot grid. Cream still matters on its own, because the notebook,
+   cassette and sticker photographs were shot against #fffeea; their surrounds
+   are keyed out now, so the dots run right up to their edges, but any leftover
+   fringe still wants the same colour behind it.
 
-   The stamps ship pre-rotated and already at their 20%, since a CSS background
-   layer cannot carry its own opacity or rotation the way a Figma fill can. */
+   One radial gradient repeated on a 24 grid, rather than a tiled image: it stays
+   crisp at any zoom, costs no request, and the spacing and weight are two
+   numbers rather than a new export. The dots are the page blue at 12%, which is
+   the same ink the About copy is written in. */
 .panel--about {
   background-color: #fffeea;
-  background-image: url("assets/about/bg-plane.webp"), url("assets/about/bg-stamps.webp");
-  background-repeat: no-repeat, no-repeat;
-  /* Both cover, both centred, which is what the fills do in the file. The plane
-     is not placed by hand: its source image is mostly empty with the aeroplane
-     already sitting in the bottom left, so covering the panel puts it exactly
-     where it belongs. Sizing it by hand is what made it enormous. */
-  background-position: center, center;
-  background-size: cover, cover;
+  background-image: radial-gradient(circle, rgb(0 43 186 / 0.12) 1.6px, transparent 1.7px);
+  background-size: 24px 24px;
+  background-position: center;
 }
 .panel--footer { background: var(--blue); }
 

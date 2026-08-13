@@ -12,11 +12,12 @@
    Desktop only. The mobile frame in the file has not been redesigned, so below
    681 this unstacks into ordinary blocks: see the bottom of the file. */
 
-/* Frame 28 is 64 top and bottom, but Frame 18 around it is 3137 against the
-   column's 2681, so there is 520 of open panel under the strip. That space is
-   not spare: it is where the aeroplane in the background is meant to show. */
+/* Frame 28 is 64 top and bottom. The panel used to carry 520 underneath instead,
+   which was never spare space, it was the room the aeroplane needed. With the
+   artwork gone that would just be a long empty run of dots, so it goes back to
+   the 64 the column is actually drawn with. */
 @media (min-width: 681px) {
-  .panel--about .col { padding-block: 64px 520px; }
+  .panel--about .col { padding-block: 64px 64px; }
 }
 
 .about-stage {
