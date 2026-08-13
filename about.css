@@ -12,10 +12,11 @@
    Desktop only. The mobile frame in the file has not been redesigned, so below
    681 this unstacks into ordinary blocks: see the bottom of the file. */
 
-/* Frame 28 is 64 top and bottom, where every other panel is 64 over 128. The
-   strip is meant to sit close to the footer arriving over it. */
+/* Frame 28 is 64 top and bottom, but Frame 18 around it is 3137 against the
+   column's 2681, so there is 520 of open panel under the strip. That space is
+   not spare: it is where the aeroplane in the background is meant to show. */
 @media (min-width: 681px) {
-  .panel--about .col { padding-block: 64px 64px; }
+  .panel--about .col { padding-block: 64px 520px; }
 }
 
 .about-stage {
