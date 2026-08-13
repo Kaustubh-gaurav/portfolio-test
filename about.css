@@ -1,0 +1,257 @@
+/* ---------- About, rebuilt from Frame 28 on Page 5 ----------
+
+   The finished About section is a composed piece rather than a flow of blocks:
+   an open notebook with a sticker collage on its lower page, a cassette holding
+   the track embed, two polaroids and a comic strip. Everything overlaps and
+   nothing reflows, so it is laid out the way the boarding pass cards are, in
+   design pixels against one container unit.
+
+   --u is 1/747 of the column, and 747 is the width of Frame 28, so every number
+   below is read straight off the Figma. The whole section scales as one piece.
+
+   Desktop only. The mobile frame in the file has not been redesigned, so below
+   681 this unstacks into ordinary blocks: see the bottom of the file. */
+
+/* Frame 28 is 64 top and bottom, where every other panel is 64 over 128. The
+   strip is meant to sit close to the footer arriving over it. */
+@media (min-width: 681px) {
+  .panel--about .col { padding-block: 64px 64px; }
+}
+
+.about-stage {
+  container-type: inline-size;
+  position: relative;
+  width: 100%;
+}
+.about-inner {
+  --u: calc(100cqw / 747);
+  position: relative;
+  width: 100%;
+  /* Frame 28 is 2681 with 64 of padding top and bottom, which .col already
+     provides, so the stage itself is the 2553 between them. */
+  height: calc(2553 * var(--u));
+}
+
+.about-stage img { display: block; }
+/* the heading is artwork, but it still has to be the section's h2 */
+.ab-h2 { margin: 0; }
+/* the pair only needs to be a box on mobile; on desktop they place themselves
+   against the stage, so the wrapper gets out of the way entirely */
+.ab-pols { display: contents; }
+
+/* every piece is placed, so they share one rule */
+.ab {
+  position: absolute;
+  margin: 0;
+}
+
+/* ---------- the notebook ---------- */
+/* The photograph carries its own cream surround, the same #fffeea the panel is
+   now painted, so it composites with no visible edge. That is why the About
+   panel had to change colour along with this. */
+.ab-book {
+  left: calc(-2 * var(--u));
+  top: 0;
+  width: calc(749 * var(--u));
+  height: calc(1225 * var(--u));
+}
+
+/* Amsterdam Handwriting is a commercial face and cannot be served as a webfont,
+   so the heading ships as artwork with the words kept in the alt. Same trade the
+   postcard headline already makes. */
+.ab-head {
+  left: calc(47 * var(--u));
+  top: calc(179 * var(--u));
+  width: calc(225 * var(--u));
+  height: auto;
+}
+.ab-rule {
+  left: calc(273 * var(--u));
+  top: calc(217 * var(--u));
+  width: calc(385 * var(--u));
+  height: calc(2 * var(--u));
+  background: var(--blue);
+}
+.ab-plane {
+  left: calc(666 * var(--u));
+  top: calc(202 * var(--u));
+  width: calc(32 * var(--u));
+  height: calc(32 * var(--u));
+  fill: var(--blue);
+}
+
+.ab-copy {
+  left: calc(47 * var(--u));
+  top: calc(298 * var(--u));
+  width: calc(651 * var(--u));
+  font-family: "Indie Flower", cursive;
+  font-size: calc(24 * var(--u));
+  line-height: 1.5;
+  color: var(--blue);
+}
+.ab-copy p { margin: 0; }
+/* Figma holds this as one text block with a blank line between paragraphs, so
+   the gap is one line of the same measure. Left to flow rather than placed, the
+   break lands across the fold on its own. */
+.ab-copy p + p { margin-top: calc(36 * var(--u)); }
+
+/* the stickers sit on the lower page and overflow their frame in the Figma too,
+   so this is the union of them, placed where that union starts */
+.ab-collage {
+  left: calc(10 * var(--u));
+  top: calc(576 * var(--u));
+  width: calc(721 * var(--u));
+  height: calc(582 * var(--u));
+}
+
+/* ---------- the cassette ---------- */
+.ab-tape {
+  left: 0;
+  top: calc(1266 * var(--u));
+  width: calc(747 * var(--u));
+  height: calc(470 * var(--u));
+}
+/* a clean strip laid over the cassette's own printed label */
+.ab-label {
+  left: calc(52 * var(--u));
+  top: calc(1331 * var(--u));
+  width: calc(634 * var(--u));
+  height: calc(82 * var(--u));
+  background: #f9f8f9;
+}
+.ab-line {
+  left: calc(86 * var(--u));
+  top: calc(1334 * var(--u));
+  width: calc(565 * var(--u));
+  font-family: "Indie Flower", cursive;
+  font-size: calc(40 * var(--u));
+  line-height: 1.5;
+  color: #0f0f0f;
+  /* One line in the Figma, and it only just fits its 565 box, so browser metrics
+     are enough to tip it onto a second line and out of the white label. */
+  white-space: nowrap;
+}
+/* theme=0 is what makes this a dark bar rather than one tinted from the album
+   art. It cannot be set to an arbitrary colour, and the surround outside its
+   rounded card is transparent, which is what lets it sit on the tape. */
+.ab-track {
+  left: calc(103 * var(--u));
+  top: calc(1416 * var(--u));
+  width: calc(532 * var(--u));
+  height: calc(121 * var(--u));
+  border: 0;
+}
+
+/* ---------- polaroids ---------- */
+/* Positioned by their centres, because a rotated element's box in Figma is the
+   bounding box rather than the card, and the two do not share a corner. */
+.ab-pol {
+  background: #fff;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.18);
+}
+.ab-pol img { position: absolute; }
+.ab-pol figcaption {
+  position: absolute;
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 400;
+  font-size: calc(13 * var(--u));
+  line-height: calc(16 * var(--u));
+  color: #7e7e7e;
+}
+
+.ab-pol--1 {
+  left: calc(46.5 * var(--u));
+  top: calc(1812 * var(--u));
+  width: calc(357 * var(--u));
+  height: calc(429 * var(--u));
+  transform: rotate(-4deg);
+}
+.ab-pol--1 img {
+  left: calc(13 * var(--u)); top: calc(13 * var(--u));
+  width: calc(331 * var(--u)); height: calc(339 * var(--u));
+  object-fit: cover;
+}
+.ab-pol--1 figcaption { left: calc(13 * var(--u)); top: calc(366 * var(--u)); width: calc(331 * var(--u)); }
+
+.ab-pol--2 {
+  left: calc(396.5 * var(--u));
+  top: calc(1819 * var(--u));
+  width: calc(311 * var(--u));
+  height: calc(375 * var(--u));
+  transform: rotate(3deg);
+}
+.ab-pol--2 img {
+  left: calc(13 * var(--u)); top: calc(13 * var(--u));
+  width: calc(285 * var(--u)); height: calc(297 * var(--u));
+  object-fit: cover;
+}
+.ab-pol--2 figcaption { left: calc(13 * var(--u)); top: calc(328 * var(--u)); width: calc(285 * var(--u)); }
+
+/* ---------- the strip ---------- */
+.ab-strip {
+  left: 0;
+  top: calc(2317 * var(--u));
+  width: calc(747 * var(--u));
+  height: calc(236 * var(--u));
+}
+
+/* ---------- mobile ---------- */
+/* The mobile frame on Page 5 is still the previous flat About, so there is no
+   drawn design for any of this at 358. Rather than shrink a composed piece
+   until the writing is unreadable and the track embed clips, which it does
+   below about 300 wide, the stage unstacks into ordinary blocks in the same
+   order. The artwork that survives the narrow column stays; the cassette does
+   not, because its whole point is the embed sitting on it. */
+@media (max-width: 680px) {
+  .about-inner { height: auto; display: flex; flex-direction: column; gap: 32px; }
+  .ab { position: static; width: 100%; height: auto; }
+
+  /* The notebook and the cassette are both containers for something else: the
+     writing sits on one and the embed on the other. Once the stage unstacks,
+     the contents move out from under them and both are left as empty props, so
+     they go rather than being shrunk into decoration.
+     Scoped to .about-stage on purpose: these are images, and a bare .ab-book
+     loses to `.about-stage img { display: block }` on specificity. */
+  .about-stage .ab-rule,
+  .about-stage .ab-plane,
+  .about-stage .ab-label,
+  .about-stage .ab-tape,
+  .about-stage .ab-book { display: none; }
+
+  .ab-head { width: 180px; }
+  .ab-copy { font-size: 18px; line-height: 1.55; }
+  .ab-copy p + p { margin-top: 18px; }
+  .ab-line { font-size: 26px; line-height: 1.4; }
+  .ab-track { height: 152px; }
+
+  .ab-book, .ab-collage, .ab-strip { object-fit: contain; }
+
+  .ab-line { white-space: normal; }
+
+  /* The pair sits side by side rather than overlapping, keeping the tilt.
+     Every placed value has to be unset explicitly and at matching specificity,
+     or the desktop rules that position these by centre keep winning and the
+     cards collapse. */
+  .about-stage .ab-pols { display: flex; gap: 12px; align-items: flex-start; }
+  .about-stage .ab-pol {
+    position: relative;
+    left: auto; top: auto;
+    width: auto; height: auto;
+    flex: 1;
+    padding: 8px 8px 24px;
+  }
+  .about-stage .ab-pol img {
+    position: static;
+    left: auto; top: auto;
+    width: 100%; height: auto;
+  }
+  .about-stage .ab-pol figcaption {
+    position: static;
+    left: auto; top: auto; width: auto;
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .about-stage .ab-pol--1 { transform: rotate(-3deg); }
+  .about-stage .ab-pol--2 { transform: rotate(2deg); }
+}

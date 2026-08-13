@@ -149,7 +149,11 @@ a { color: inherit; }
 .panel--work .section { gap: 80px; }
 .panel--about .section { gap: 56px; }
 .panel--work { background: url("assets/sky-panel.webp") center / cover no-repeat; }
-.panel--about { background: #e7e7e9; }
+/* Cream, not the old grey. The notebook, cassette and sticker photographs all
+   carry their own #fffeea surround baked in, so the panel has to be the same
+   colour or each one reads as a pale rectangle sitting on a grey sheet. This is
+   also what Frame 18 inherits from the page in the Figma. */
+.panel--about { background: #fffeea; }
 .panel--footer { background: var(--blue); }
 
 /* Nothing comes over the footer, so it never pins. It still has to be positioned:
