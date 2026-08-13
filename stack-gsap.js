@@ -160,6 +160,69 @@
     }
   });
 
+  /* ---------- 6. the About notebook opens ---------- */
+  // The closed pad lifts from its clipped top edge and the pages unfold below.
+  //
+  // The cover is built here rather than shipped in the markup, so a page with
+  // no JavaScript never renders a cover it has no way to lift, and the About
+  // copy is simply visible. about-pad.css only hides the pages once js-cover
+  // says a cover actually exists.
+  //
+  // Height is left to CSS while GSAP drives the flip. They animate different
+  // elements, so nothing is fighting, and height stays correct through a
+  // resize because it is expressed in --u rather than in pixels frozen at
+  // whatever the width happened to be when the tween was built.
+  (function () {
+    var pad = document.querySelector('.pad');
+    if (!pad) return;
+    var stage = pad.querySelector('.pad-stage');
+    var pages = pad.querySelector('.pad-pages');
+    if (!stage || !pages) return;
+
+    // the notebook is desktop only for now; below the breakpoint about-pad.css
+    // renders the same markup as ordinary copy and there is nothing to open
+    var wide = window.matchMedia('(min-width: 681px)');
+    if (!wide.matches) return;
+
+    var cover = document.createElement('button');
+    cover.type = 'button';
+    cover.className = 'pad-cover';
+    cover.setAttribute('aria-expanded', 'false');
+    cover.setAttribute('aria-controls', 'pad-pages');
+    cover.innerHTML = '<span class="sr-only">Open the notebook to read about me</span>';
+    stage.appendChild(cover);
+    pad.classList.add('js-cover');
+
+    var opened = false;
+    function openPad() {
+      if (opened) return;
+      opened = true;
+      cover.setAttribute('aria-expanded', 'true');
+      pad.classList.add('is-open');   // CSS grows the stage to the open height
+
+      gsap.timeline({ onComplete: function () { cover.remove(); ScrollTrigger.refresh(); } })
+        .to(cover, { rotateX: -108, duration: 0.85, ease: 'power2.inOut' }, 0)
+        // fades out as it passes the point where it would otherwise show its
+        // own reverse side to the viewer
+        .to(cover, { opacity: 0, duration: 0.3, ease: 'none' }, 0.5)
+        .from(pages, { opacity: 0, duration: 0.45, ease: 'power1.out' }, 0.2);
+    }
+
+    cover.addEventListener('click', openPad);
+
+    // Opens itself when it arrives, so the bio is not sitting behind a click
+    // most visitors will never make. The cover stays clickable in case it is
+    // already on screen at load. pinnedContainer for the usual reason: the
+    // About panel is pinned, so the pad stops moving with the scroll.
+    ScrollTrigger.create({
+      trigger: pad,
+      start: 'top 75%',
+      once: true,
+      pinnedContainer: pad.closest('.panel') !== last ? pad.closest('.panel') : null,
+      onEnter: openPad
+    });
+  })();
+
   // Images settle after first paint and change the heights every start point was
   // measured against.
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });

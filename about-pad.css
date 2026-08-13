@@ -1,0 +1,156 @@
+/* ---------- the About notebook ----------
+   A closed pad that opens to two written pages. Prototype only: linked from
+   index-gsap.html, not from index.html.
+
+   Built the same way as the boarding pass cards: one container query unit,
+   --u = a design pixel, so every part scales as a single piece instead of
+   reflowing. Frame 23 in the Figma is 747 wide, so --u is 1/747 of the width
+   and every number below is read straight off that frame.
+
+   The copy lives here once. Desktop composes it onto the paper photograph;
+   mobile drops the photographs and renders the same markup as ordinary text,
+   because the notebook has no mobile design yet and handwriting at 20px is
+   not readable. One copy of the content, two presentations, so nothing is
+   duplicated for screen readers or search. */
+
+.pad {
+  container-type: inline-size;
+  width: 100%;
+}
+
+.pad-stage {
+  --u: calc(100cqw / 747);
+  position: relative;
+  width: 100%;
+  /* closed height. The pad photograph is 747 x 529 at this width. */
+  height: calc(529 * var(--u));
+  perspective: 1400px;
+  transition: height 750ms cubic-bezier(.65,.05,.36,1);
+}
+/* 1225 rather than Frame 23's 1202: the photograph is 23 taller than the frame
+   and overflows it in Figma too, so the page is sized to the artwork instead of
+   slicing its bottom edge off. */
+.pad.is-open .pad-stage { height: calc(1225 * var(--u)); }
+
+/* ---------- the open pages ---------- */
+/* The photograph carries its own cream surround, which is the same #fffeea as
+   the About panel, so it composites with no visible edge. That is also why the
+   panel has to stay cream. */
+/* Height follows the stage rather than being fixed at the artwork's height, and
+   the overflow is clipped. Two things fall out of that: the pages genuinely
+   unfold as the stage grows instead of being revealed all at once, and the
+   artwork can never spill over the content below during the 750ms it takes. */
+.pad-pages {
+  position: absolute;
+  top: 0;
+  left: calc(-2 * var(--u));
+  width: calc(749 * var(--u));
+  height: 100%;
+  overflow: hidden;
+  background: url("assets/about/pad-open.webp") top left / calc(749 * var(--u)) calc(1225 * var(--u)) no-repeat;
+}
+
+/* offsets are measured from Frame 23, so the ink lands where it was drawn */
+.pad-ink { position: absolute; inset: 0; margin-left: calc(2 * var(--u)); }
+
+.pad-head { margin: 0; }
+/* Amsterdam Handwriting is a commercial face and cannot be served as a
+   webfont, so the heading ships as artwork with the real text kept in the
+   alt attribute. Same trade already made for the postcard headline. */
+.pad-head img {
+  position: absolute;
+  left: calc(47 * var(--u));
+  top: calc(179 * var(--u));
+  width: calc(225 * var(--u));
+  height: auto;
+}
+.pad-rule {
+  position: absolute;
+  left: calc(273 * var(--u));
+  top: calc(217 * var(--u));
+  width: calc(385 * var(--u));
+  height: calc(2 * var(--u));
+  background: var(--blue);
+}
+.pad-plane {
+  position: absolute;
+  left: calc(666 * var(--u));
+  top: calc(202 * var(--u));
+  width: calc(32 * var(--u));
+  height: calc(32 * var(--u));
+  fill: var(--blue);
+}
+
+.pad-copy {
+  position: absolute;
+  left: calc(47 * var(--u));
+  top: calc(298 * var(--u));
+  width: calc(651 * var(--u));
+  font-family: "Indie Flower", cursive;
+  font-weight: 400;
+  font-size: calc(42 * var(--u));
+  line-height: 1.5;
+  color: var(--blue);
+}
+.pad-copy p { margin: 0; }
+/* Figma has this as one text block with a blank line between paragraphs, so
+   the gap is exactly one line of the same measure. Letting it flow rather than
+   placing each paragraph is what puts the break across the fold on its own. */
+.pad-copy p + p { margin-top: calc(63 * var(--u)); }
+
+/* ---------- the cover ---------- */
+.pad-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(747 * var(--u));
+  height: calc(529 * var(--u));
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: url("assets/about/pad-closed.webp") top left / 100% 100% no-repeat;
+  /* it lifts from the clipped top edge, like the pad it is */
+  transform-origin: 50% 0;
+  backface-visibility: hidden;
+  cursor: pointer;
+}
+
+/* The cover is built by the script, and js-cover is only set once it exists.
+   So the pages are hidden strictly when there is something covering them. No
+   JS, or a script that failed to run, leaves the bio plainly on the page
+   rather than trapped behind an interaction that can never happen. */
+.pad.js-cover:not(.is-open) .pad-pages { visibility: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pad-stage { transition: none; }
+  .pad-cover { display: none; }
+  .pad .pad-pages { visibility: visible; }
+}
+
+/* ---------- mobile ---------- */
+/* No notebook design exists at 358, and the handwriting would land near 20px.
+   So below the breakpoint the photographs are dropped and the same markup is
+   rendered as the plain About copy it already was. */
+@media (max-width: 680px) {
+  .pad-stage { height: auto; perspective: none; transition: none; }
+  .pad-cover { display: none; }
+  .pad-pages {
+    position: static;
+    width: 100%;
+    height: auto;
+    background: none;
+    visibility: visible;
+  }
+  .pad-ink { position: static; margin-left: 0; }
+  .pad-head img { position: static; width: 180px; margin-bottom: 20px; }
+  .pad-rule, .pad-plane { display: none; }
+  .pad-copy {
+    position: static;
+    width: 100%;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 20px;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+  .pad-copy p + p { margin-top: 20px; }
+}
