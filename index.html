@@ -168,22 +168,27 @@
              width="1494" height="940" loading="lazy">
         <span class="ab ab-label"></span>
         <p class="ab ab-line">Pause if you must, but don&rsquo;t stop</p>
-        <!-- To change the track: swap the link, the art, the name and the artist.
-             Built rather than embedded because Spotify's compact embed is fixed at
-             80 tall and cannot fill the 121 box this is drawn as. Opens the track. -->
-        <a class="ab ab-track" href="https://open.spotify.com/track/1OOtq8tRnDM8kG2gqUPjAj"
-           target="_blank" rel="noopener">
+        <!-- The bar is drawn here and Spotify plays underneath it. Its compact
+             embed is fixed at 80 tall and carries its own chrome, so it cannot be
+             the bar in Frame 26; instead track.js drives it through Spotify's
+             Embed IFrame API and this is the only visible control.
+             To change the track: swap the id in data-track, the art, name and artist. -->
+        <div class="ab ab-track" data-track="1OOtq8tRnDM8kG2gqUPjAj">
           <img class="ab-track-art" src="assets/about/track-art.webp" alt=""
                width="104" height="104" loading="lazy">
           <span class="ab-track-meta">
             <span class="ab-track-name">Beat It</span>
             <span class="ab-track-artist">Michael Jackson</span>
           </span>
-          <span class="ab-track-play">
-            <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 1.2 10.2 6 2.5 10.8Z"/></svg>
-          </span>
-          <span class="sr-only">Most replayed this month: Beat It by Michael Jackson. Opens in Spotify.</span>
-        </a>
+          <!-- Falls back to a plain link to the track, and is upgraded to a play
+               button by track.js once the API is actually available. -->
+          <a class="ab-track-play" href="https://open.spotify.com/track/1OOtq8tRnDM8kG2gqUPjAj"
+             target="_blank" rel="noopener" aria-label="Beat It by Michael Jackson on Spotify">
+            <svg class="ab-track-ico ab-track-ico--play" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 1.2 10.2 6 2.5 10.8Z"/></svg>
+            <svg class="ab-track-ico ab-track-ico--pause" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 1.5h2.6v9H2.5zm4.4 0h2.6v9H6.9z"/></svg>
+          </a>
+          <span class="ab-track-embed" aria-hidden="true"><span class="ab-track-slot"></span></span>
+        </div>
 
         <div class="ab-pols">
           <figure class="ab ab-pol ab-pol--1">
@@ -234,6 +239,7 @@
   </div>
 </footer>
 
+<script src="track.js" defer></script>
 <script src="stack.js" defer></script>
 <script src="smooth-scroll.js" defer></script>
 <script src="reveal.js" defer></script>

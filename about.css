@@ -149,7 +149,9 @@
   text-decoration: none;
   transition: background-color 200ms ease;
 }
-.ab-track:hover, .ab-track:focus-visible { background: #4a4844; }
+.ab-track:hover { background: #4a4844; }
+/* the embed is positioned against this */
+.ab-track { position: absolute; }
 
 .ab-track-art {
   width: calc(52 * var(--u));
@@ -182,8 +184,35 @@
   background: #fff;
   display: grid;
   place-items: center;
+  cursor: pointer;
+  transition: transform 160ms ease;
 }
-.ab-track-play svg { width: calc(12 * var(--u)); height: calc(12 * var(--u)); fill: #3d3b38; }
+.ab-track-play:hover, .ab-track-play:focus-visible { transform: scale(1.08); }
+.ab-track-ico {
+  grid-area: 1 / 1;
+  width: calc(12 * var(--u));
+  height: calc(12 * var(--u));
+  fill: #3d3b38;
+}
+/* both icons stack in the same cell and one is shown at a time, so the button
+   never changes size as it toggles */
+.ab-track-ico--pause { display: none; }
+.ab-track.is-playing .ab-track-ico--play { display: none; }
+.ab-track.is-playing .ab-track-ico--pause { display: block; }
+
+/* Spotify does the audio from back here. Kept at a real size and merely
+   transparent rather than display:none or 0x0, because a player with no box is
+   liable to be treated as not really present and never start. */
+.ab-track-embed {
+  position: absolute;
+  left: 0;
+  bottom: calc(-4 * var(--u));
+  width: calc(300 * var(--u));
+  height: calc(80 * var(--u));
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
 
 /* ---------- polaroids ---------- */
 /* Positioned by their centres, because a rotated element's box in Figma is the
@@ -265,7 +294,21 @@
   .ab-copy { font-size: 18px; line-height: 1.55; }
   .ab-copy p + p { margin-top: 18px; }
   .ab-line { font-size: 26px; line-height: 1.4; }
-  .ab-track { height: 152px; }
+
+  /* the bar keeps its shape here, it just stops being placed */
+  .about-stage .ab-track {
+    position: relative;
+    height: 76px;
+    gap: 12px;
+    padding: 0 12px;
+    border-radius: 10px;
+  }
+  .ab-track-art { width: 48px; height: 48px; border-radius: 4px; }
+  .ab-track-name { font-size: 14px; line-height: 17px; }
+  .ab-track-artist { font-size: 12px; line-height: 15px; }
+  .ab-track-play { width: 30px; height: 30px; }
+  .ab-track-ico { width: 12px; height: 12px; }
+  .ab-track-embed { width: 240px; height: 80px; bottom: -4px; }
 
   .ab-book, .ab-collage, .ab-strip { object-fit: contain; }
 
