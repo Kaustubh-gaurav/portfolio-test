@@ -189,7 +189,9 @@
     cover.className = 'pad-cover';
     cover.setAttribute('aria-expanded', 'false');
     cover.setAttribute('aria-controls', 'pad-pages');
-    cover.innerHTML = '<span class="sr-only">Open the notebook to read about me</span>';
+    cover.innerHTML =
+      '<span class="pad-face pad-face--front"></span>' +
+      '<span class="sr-only">Open the notebook to read about me</span>';
     stage.appendChild(cover);
     pad.classList.add('js-cover');
 
@@ -200,12 +202,16 @@
       cover.setAttribute('aria-expanded', 'true');
       pad.classList.add('is-open');   // CSS grows the stage to the open height
 
+      // Negative, so the top edge comes toward the reader rather than falling
+      // away from them: a page being turned, not a lid dropping backwards.
+      // It is carried past 90 to 104 because the leaf is already invisible from
+      // 90 on, and stopping exactly at the vanishing point makes the end of the
+      // motion visible as a stop.
       gsap.timeline({ onComplete: function () { cover.remove(); ScrollTrigger.refresh(); } })
-        .to(cover, { rotateX: -108, duration: 0.85, ease: 'power2.inOut' }, 0)
-        // fades out as it passes the point where it would otherwise show its
-        // own reverse side to the viewer
-        .to(cover, { opacity: 0, duration: 0.3, ease: 'none' }, 0.5)
-        .from(pages, { opacity: 0, duration: 0.45, ease: 'power1.out' }, 0.2);
+        // Accelerating, not eased at both ends. The leaf is invisible from 90 of
+        // the 104 onward, so an ease that slows into its finish spends that slow
+        // part where nobody can see it and reads as the turn dragging.
+        .to(cover, { rotateX: -104, duration: 0.95, ease: 'power1.in' }, 0);
     }
 
     cover.addEventListener('click', openPad);

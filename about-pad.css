@@ -22,10 +22,13 @@
   --u: calc(100cqw / 747);
   position: relative;
   width: 100%;
-  /* closed height. The pad photograph is 747 x 529 at this width. */
-  height: calc(529 * var(--u));
-  perspective: 1400px;
-  transition: height 750ms cubic-bezier(.65,.05,.36,1);
+  /* Closed height is the upper page, not the pad photograph's own 529. The fold
+     in the open artwork sits at 602, measured off the image, and that fold is
+     the hinge, so the closed state has to end exactly there or the cover turns
+     about a line that is not where the notebook actually creases. */
+  height: calc(602 * var(--u));
+  perspective: 1600px;
+  transition: height 1000ms cubic-bezier(.65,.05,.36,1);
 }
 /* 1225 rather than Frame 23's 1202: the photograph is 23 taller than the frame
    and overflows it in Figma too, so the page is sized to the artwork instead of
@@ -99,21 +102,47 @@
 .pad-copy p + p { margin-top: calc(63 * var(--u)); }
 
 /* ---------- the cover ---------- */
+/* A real leaf with two sides, hinged on the fold. The front is the closed pad,
+   the back is the lower page. Turning it does the whole job in one motion: it
+   uncovers the upper page as it leaves, and it delivers the lower page as it
+   lands. Nothing has to be faded in alongside, which is what made the first
+   attempt read as a crossfade with a flip stuck on top of it. */
 .pad-cover {
   position: absolute;
   top: 0;
   left: 0;
   width: calc(747 * var(--u));
-  height: calc(529 * var(--u));
+  height: calc(602 * var(--u));
   margin: 0;
   padding: 0;
   border: 0;
-  background: url("assets/about/pad-closed.webp") top left / 100% 100% no-repeat;
-  /* it lifts from the clipped top edge, like the pad it is */
-  transform-origin: 50% 0;
-  backface-visibility: hidden;
+  background: none;
+  /* the hinge is the bottom edge, which is the fold */
+  transform-origin: 50% 100%;
+  transform-style: preserve-3d;
   cursor: pointer;
 }
+.pad-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+/* the pad photograph is 529 tall and is stretched to the 602 of the upper page.
+   14% on a flat fabric texture, which does not read, and it keeps the hinge
+   honest, which does. */
+.pad-face--front { background-image: url("assets/about/pad-closed.webp"); }
+
+/* There is deliberately no back face. The obvious thing is to put the lower
+   page on the reverse, the way a real turned page carries the next one, but the
+   copy is live text rather than part of the photograph, so the reverse comes up
+   as blank paper and the writing appears only once the leaf is gone.
+   With one face and backface-visibility hidden, the leaf goes edge on at 90 and
+   disappears there, which is also the exact moment it would start hanging below
+   the hinge and over whatever follows the notebook. The real lower page, text
+   and all, is already underneath. One decision, both problems. */
 
 /* The cover is built by the script, and js-cover is only set once it exists.
    So the pages are hidden strictly when there is something covering them. No
